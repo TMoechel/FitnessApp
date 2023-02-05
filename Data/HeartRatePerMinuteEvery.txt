@@ -1,2 +1,2 @@
-activityId: 1; heartBeats: 90,120,130,140,150,146,153,165,155,143
-activityId: 2; heartBeats: 94,123,132,143,158,149,150,165,151,141
+activityId: 1; heartBeats: 90,120,130,140,150,146,153,165,155,141
+activityId: 2; heartBeats: 94,123,132,143,158,149,150,165,151,139
