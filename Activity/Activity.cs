@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace FitnessApp.Activity
 {
+    // this is the Activity class
     public class Activity
     {
         
