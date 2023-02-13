@@ -1,6 +1,8 @@
 ﻿string userSelection;
 do
 {
+    //print the first screen
+    //this is another comment
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("**************************************");
     Console.WriteLine("* Welcome to the Loropio Fitness App *");
