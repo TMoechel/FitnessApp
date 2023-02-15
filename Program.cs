@@ -1,6 +1,9 @@
-﻿string userSelection;
+﻿using FitnessApp.Activity;
+
+string userSelection;
 do
 {
+    List<SportsType> sportstype = new List<SportsType>();
     //print the first screen
     //this is another comment
     Console.ForegroundColor = ConsoleColor.Blue;
@@ -20,6 +23,17 @@ do
     Console.Write("Your selection: ");
 
     userSelection = Console.ReadLine();
+
+    switch (userSelection)
+    {
+        case "1":
+            Activity.ChooseActivity(sportstype);
+            break;
+        case "9": break;
+        default:
+            Console.WriteLine("Invalid selection. Please try again.");
+            break;
+    }
 }
 while (userSelection != "9");
 

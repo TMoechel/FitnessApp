@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FitnessApp.Activity
 {
-    public class SwinActivity
+    public class SwinActivity : Activity
     {
         
     }
