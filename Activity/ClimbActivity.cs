@@ -7,6 +7,8 @@ namespace FitnessApp.Activity
 {
     public class ClimbActivity : Activity
     {
-        
+        public ClimbActivity(double distance, double timeTaken) : base(distance, timeTaken)
+        {
+        }
     }
 }
