@@ -1,6 +1,10 @@
-﻿string userSelection;
+﻿using FitnessApp;
+using FitnessApp.Activity;
+
+string userSelection;
 do
 {
+    List<Activity> activities = new List<Activity>();
     //print the first screen
     //this is another comment
     Console.ForegroundColor = ConsoleColor.Blue;
@@ -20,7 +24,24 @@ do
     Console.Write("Your selection: ");
 
     userSelection = Console.ReadLine();
+
+    switch (userSelection)
+    {
+        case "1":
+            Activity.EnterActivity(activities);
+            break;
+        case "2":
+            Activity.ViewAllActivities(activities);
+            break;
+        case "9": break;
+        default:
+            Console.WriteLine("Invalid selection. Please try again.");
+            break;
+            Console.Clear();
+    }
 }
 while (userSelection != "9");
+
+Console.WriteLine("Thanks for using Loropio Fitness App");
 
 

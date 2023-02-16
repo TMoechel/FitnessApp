@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace FitnessApp.Activity
 {
-    public class SwinActivity
+    public class SwinActivity : Activity
     {
-        
+        public SwinActivity(double distance, double timeTaken) : base(distance, timeTaken)
+        {
+        }
     }
 }
