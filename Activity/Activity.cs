@@ -32,7 +32,7 @@ namespace FitnessApp.Activity
             set { feeling = value; }
         }
 
-        public Activity(double distance, double timeTaken, string? feeling)
+        public Activity(double distance, double timeTaken, string feeling)
         {
             Distance = distance;
             TimeTaken = timeTaken;
@@ -67,21 +67,46 @@ namespace FitnessApp.Activity
             string feeling = Console.ReadLine();
             int feeling1 = int.Parse(feeling);
 
+            if (feeling1 == 1)
+            {
+                feeling = "Bad";
+            }
+            else if (feeling1 == 2)
+            {
+                feeling = "Ok";
+            }
+            else if (feeling1 == 3)
+            {
+                feeling = "Good";
+            }
+            else if (feeling1 == 4)
+            {
+                feeling = "Strong";
+            }
+            else if (feeling1 == 5)
+            {
+                feeling = " Very Strong";
+            }
+
             Activity activity = null;
 
             switch (activityType)
             {
                 case "1":
                     activity = new BikeActivity(distance1, time1, feeling);
+                    activityType = SportsType.Biking.ToString();
                     break;
                 case "2":
                     activity = new ClimbActivity(distance1, time1, feeling);
+                    activityType= SportsType.Climbing.ToString();
                     break;
                 case "3":
                     activity = new RunActivity(distance1, time1, feeling);
+                    activityType = SportsType.Running.ToString();
                     break;
                 case "4":
                     activity = new SwinActivity(distance1, time1, feeling);
+                    activityType = SportsType.Swimming.ToString();
                     break;
                 default:
                     Console.WriteLine("Invalid activity selection. Please try again.");
