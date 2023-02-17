@@ -34,13 +34,12 @@ do
             Activity.ViewAllActivities(activities);
             break;
         case "3":
-            Activity.LoadActivity(activities);
+            Activity.LoadSpecificActivity(activities);
             break;
         case "9": break;
         default:
             Console.WriteLine("Invalid selection. Please try again.");
             break;
-            Console.Clear();
     }
 }
 while (userSelection != "9");

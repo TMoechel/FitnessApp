@@ -69,23 +69,23 @@ namespace FitnessApp.Activity
 
             if (feeling1 == 1)
             {
-                feeling = "Bad";
+                feeling = FitnessApp.Activity.Feeling.Bad.ToString();
             }
             else if (feeling1 == 2)
             {
-                feeling = "Ok";
+                feeling = FitnessApp.Activity.Feeling.Ok.ToString();
             }
             else if (feeling1 == 3)
             {
-                feeling = "Good";
+                feeling = FitnessApp.Activity.Feeling.Good.ToString();
             }
             else if (feeling1 == 4)
             {
-                feeling = "Strong";
+                feeling = FitnessApp.Activity.Feeling.Strong.ToString();
             }
             else if (feeling1 == 5)
             {
-                feeling = " Very Strong";
+                feeling = FitnessApp.Activity.Feeling.Very_Strong.ToString();
             }
 
             Activity activity = null;
@@ -127,10 +127,10 @@ namespace FitnessApp.Activity
 
         public void DisplayAllActivities()
         {
-            Console.WriteLine($"Activity: \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nFeeling: \t{Feeling} \nAverage Speed: \t{CalculateAverage}");
+            Console.WriteLine($"Activity:{FitnessApp.Activity.Activity.LoadSpecificActivity} \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nFeeling: \t{Feeling} \nAverage Speed: \t{CalculateAverage}");
         }
 
-        internal static void LoadActivity(List<Activity> activities)
+        internal static void LoadSpecificActivity(List<Activity> activities)
         {
             throw new NotImplementedException();
         }
