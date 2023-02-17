@@ -12,6 +12,7 @@ namespace FitnessApp.Activity
         private double averageSpeed;
         private double distance;
         private double timeTaken;
+        private string feeling;
 
         public double Distance 
         {
@@ -25,10 +26,17 @@ namespace FitnessApp.Activity
             set { timeTaken = value; }
         }
 
-        public Activity(double distance, double timeTaken)
+        public string Feeling
+        {
+            get { return feeling; }
+            set { feeling = value; }
+        }
+
+        public Activity(double distance, double timeTaken, string? feeling)
         {
             Distance = distance;
             TimeTaken = timeTaken;
+            Feeling = feeling;
         }
 
         public double CalculateAverage => averageSpeed = Distance / TimeTaken;
@@ -55,21 +63,25 @@ namespace FitnessApp.Activity
             string time = Console.ReadLine();
             double time1 = double.Parse(time);
 
+            Console.Write("How did you feel after the activity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+            string feeling = Console.ReadLine();
+            int feeling1 = int.Parse(feeling);
+
             Activity activity = null;
 
             switch (activityType)
             {
                 case "1":
-                    activity = new BikeActivity(distance1, time1);
+                    activity = new BikeActivity(distance1, time1, feeling);
                     break;
                 case "2":
-                    activity = new ClimbActivity(distance1, time1);
+                    activity = new ClimbActivity(distance1, time1, feeling);
                     break;
                 case "3":
-                    activity = new RunActivity(distance1, time1);
+                    activity = new RunActivity(distance1, time1, feeling);
                     break;
                 case "4":
-                    activity = new SwinActivity(distance1, time1);
+                    activity = new SwinActivity(distance1, time1, feeling);
                     break;
                 default:
                     Console.WriteLine("Invalid activity selection. Please try again.");
@@ -90,7 +102,7 @@ namespace FitnessApp.Activity
 
         public void DisplayAllActivities()
         {
-            Console.WriteLine($"Activity: \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nAverage Speed: \t{CalculateAverage}");
+            Console.WriteLine($"Activity: \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nFeeling: \t{Feeling} \nAverage Speed: \t{CalculateAverage}");
         }
 
         internal static void LoadActivity(List<Activity> activities)
