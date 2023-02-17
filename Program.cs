@@ -1,10 +1,10 @@
 ﻿using FitnessApp;
 using FitnessApp.Activity;
 
+List<Activity> activities = new List<Activity>();
 string userSelection;
 do
 {
-    List<Activity> activities = new List<Activity>();
     //print the first screen
     //this is another comment
     Console.ForegroundColor = ConsoleColor.Blue;
@@ -32,6 +32,9 @@ do
             break;
         case "2":
             Activity.ViewAllActivities(activities);
+            break;
+        case "3":
+            Activity.LoadActivity(activities);
             break;
         case "9": break;
         default:

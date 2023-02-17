@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FitnessApp;
+using FitnessApp.Activity;
 
 namespace FitnessApp.Activity
 {
     // this is the Activity class
     public class Activity
     {
-
         private double averageSpeed;
         private double distance;
         private double timeTaken;
@@ -32,7 +31,9 @@ namespace FitnessApp.Activity
             TimeTaken = timeTaken;
         }
 
-        public static void EnterActivity(List<Activity> activities)
+        public double CalculateAverage => averageSpeed = Distance / TimeTaken;
+
+        internal static void EnterActivity(List<Activity> activities)
         {
             Console.WriteLine("What type of activity do you want to enter?");
             Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
@@ -61,19 +62,20 @@ namespace FitnessApp.Activity
                 case "1":
                     activity = new BikeActivity(distance1, time1);
                     break;
-                /*case "2":
-                    activity = new ClimbActivity(distance, time);
+                case "2":
+                    activity = new ClimbActivity(distance1, time1);
                     break;
                 case "3":
-                    activity = new RunActivity(distance, time);
+                    activity = new RunActivity(distance1, time1);
                     break;
                 case "4":
-                    activity = new SwinActivity(distance, time);
-                    break;*/
+                    activity = new SwinActivity(distance1, time1);
+                    break;
                 default:
                     Console.WriteLine("Invalid activity selection. Please try again.");
                     break;
             }
+
             activities.Add(activity);
             Console.WriteLine("New Activity created!\n\n");
         }
@@ -88,7 +90,12 @@ namespace FitnessApp.Activity
 
         public void DisplayAllActivities()
         {
-            Console.WriteLine($"(\nDistance: \t{Distance} \nTime: \t{TimeTaken})");
+            Console.WriteLine($"Activity: \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nAverage Speed: \t{CalculateAverage}");
+        }
+
+        internal static void LoadActivity(List<Activity> activities)
+        {
+            throw new NotImplementedException();
         }
     }
 }
