@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FitnessApp;
+using FitnessApp.Activity;
 
 namespace FitnessApp.Activity
 {
     // this is the Activity class
     public class Activity
     {
-
         private double averageSpeed;
         private double distance;
         private double timeTaken;
+        private string feeling;
 
         public double Distance 
         {
@@ -26,13 +26,22 @@ namespace FitnessApp.Activity
             set { timeTaken = value; }
         }
 
-        public Activity(double distance, double timeTaken)
+        public string Feeling
+        {
+            get { return feeling; }
+            set { feeling = value; }
+        }
+
+        public Activity(double distance, double timeTaken, string feeling)
         {
             Distance = distance;
             TimeTaken = timeTaken;
+            Feeling = feeling;
         }
 
-        public static void EnterActivity(List<Activity> activities)
+        public double CalculateAverage => averageSpeed = Distance / TimeTaken;
+
+        internal static void EnterActivity(List<Activity> activities)
         {
             Console.WriteLine("What type of activity do you want to enter?");
             Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
@@ -54,26 +63,56 @@ namespace FitnessApp.Activity
             string time = Console.ReadLine();
             double time1 = double.Parse(time);
 
+            Console.Write("How did you feel after the activity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+            string feeling = Console.ReadLine();
+            int feeling1 = int.Parse(feeling);
+
+            if (feeling1 == 1)
+            {
+                feeling = FitnessApp.Activity.Feeling.Bad.ToString();
+            }
+            else if (feeling1 == 2)
+            {
+                feeling = FitnessApp.Activity.Feeling.Ok.ToString();
+            }
+            else if (feeling1 == 3)
+            {
+                feeling = FitnessApp.Activity.Feeling.Good.ToString();
+            }
+            else if (feeling1 == 4)
+            {
+                feeling = FitnessApp.Activity.Feeling.Strong.ToString();
+            }
+            else if (feeling1 == 5)
+            {
+                feeling = FitnessApp.Activity.Feeling.Very_Strong.ToString();
+            }
+
             Activity activity = null;
 
             switch (activityType)
             {
                 case "1":
-                    activity = new BikeActivity(distance1, time1);
+                    activity = new BikeActivity(distance1, time1, feeling);
+                    activityType = SportsType.Biking.ToString();
                     break;
-                /*case "2":
-                    activity = new ClimbActivity(distance, time);
+                case "2":
+                    activity = new ClimbActivity(distance1, time1, feeling);
+                    activityType= SportsType.Climbing.ToString();
                     break;
                 case "3":
-                    activity = new RunActivity(distance, time);
+                    activity = new RunActivity(distance1, time1, feeling);
+                    activityType = SportsType.Running.ToString();
                     break;
                 case "4":
-                    activity = new SwinActivity(distance, time);
-                    break;*/
+                    activity = new SwinActivity(distance1, time1, feeling);
+                    activityType = SportsType.Swimming.ToString();
+                    break;
                 default:
                     Console.WriteLine("Invalid activity selection. Please try again.");
                     break;
             }
+
             activities.Add(activity);
             Console.WriteLine("New Activity created!\n\n");
         }
@@ -88,7 +127,12 @@ namespace FitnessApp.Activity
 
         public void DisplayAllActivities()
         {
-            Console.WriteLine($"(\nDistance: \t{Distance} \nTime: \t{TimeTaken})");
+            Console.WriteLine($"Activity:{FitnessApp.Activity.Activity.LoadSpecificActivity} \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nFeeling: \t{Feeling} \nAverage Speed: \t{CalculateAverage}");
+        }
+
+        internal static void LoadSpecificActivity(List<Activity> activities)
+        {
+            throw new NotImplementedException();
         }
     }
 }
