@@ -12,7 +12,6 @@ namespace FitnessApp.Activity
         private double averageSpeed;
         private double distance;
         private double timeTaken;
-        private string feeling;
 
         public double Distance 
         {
@@ -26,17 +25,10 @@ namespace FitnessApp.Activity
             set { timeTaken = value; }
         }
 
-        public string Feeling
-        {
-            get { return feeling; }
-            set { feeling = value; }
-        }
-
         public Activity(double distance, double timeTaken, string feeling)
         {
             Distance = distance;
             TimeTaken = timeTaken;
-            Feeling = feeling;
         }
 
         public double CalculateAverage => averageSpeed = Distance / TimeTaken;
@@ -46,10 +38,12 @@ namespace FitnessApp.Activity
             Console.WriteLine("What type of activity do you want to enter?");
             Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
             Console.Write("Your selection: ");
-            string activityType = Console.ReadLine();
+            string activityTypeInput = Console.ReadLine();
+            int activityType = int.Parse(activityTypeInput);
+            SportsType sportstype = (SportsType)(activityType-1);
 
-            if (activityType != "1" && activityType != "2" && activityType != "3"
-                && activityType != "4" && activityType != "5")
+            if (activityTypeInput != "1" && activityTypeInput != "2" && activityTypeInput != "3"
+                && activityTypeInput != "4" && activityTypeInput != "5")
             {
                 Console.WriteLine("Invalid activity!");
                 return;
@@ -57,56 +51,59 @@ namespace FitnessApp.Activity
 
             Console.Write("Enter Distance: ");
             string distance = Console.ReadLine();
-            double distance1 = double.Parse(distance);
+            double distanceInputToDouble = double.Parse(distance);
 
             Console.Write("Enter time taken: ");
             string time = Console.ReadLine();
-            double time1 = double.Parse(time);
+            double timeInputToDouble = double.Parse(time);
 
             Console.Write("How did you feel after the activity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
             string feeling = Console.ReadLine();
-            int feeling1 = int.Parse(feeling);
+            int feelingInputToString = int.Parse(feeling);
+            Feeling f = (Feeling)(feelingInputToString - 1);
 
-            if (feeling1 == 1)
+            switch (f)
             {
-                feeling = FitnessApp.Activity.Feeling.Bad.ToString();
-            }
-            else if (feeling1 == 2)
-            {
-                feeling = FitnessApp.Activity.Feeling.Ok.ToString();
-            }
-            else if (feeling1 == 3)
-            {
-                feeling = FitnessApp.Activity.Feeling.Good.ToString();
-            }
-            else if (feeling1 == 4)
-            {
-                feeling = FitnessApp.Activity.Feeling.Strong.ToString();
-            }
-            else if (feeling1 == 5)
-            {
-                feeling = FitnessApp.Activity.Feeling.Very_Strong.ToString();
+                case (Feeling)1:
+                    f = Feeling.Bad;
+                    break;
+                case (Feeling)2:
+                    f = Feeling.Ok;
+                    break;
+                case (Feeling)3:
+                    f = Feeling.Good;
+                    break;
+                case (Feeling)4:
+                    f = Feeling.Strong;
+                    break;
+                case (Feeling)5:
+                    f = Feeling.Very_Strong;
+                    break;
+                default:
+                    Console.WriteLine("Invalid selection");
+                    break;
+
             }
 
             Activity activity = null;
 
-            switch (activityType)
+            switch (activityTypeInput)
             {
                 case "1":
-                    activity = new BikeActivity(distance1, time1, feeling);
-                    activityType = SportsType.Biking.ToString();
+                    activity = new BikeActivity(distanceInputToDouble, timeInputToDouble, feeling);
+                    sportstype = SportsType.Biking;
                     break;
                 case "2":
-                    activity = new ClimbActivity(distance1, time1, feeling);
-                    activityType= SportsType.Climbing.ToString();
+                    activity = new ClimbActivity(distanceInputToDouble, timeInputToDouble, feeling);
+                    sportstype = SportsType.Climbing;
                     break;
                 case "3":
-                    activity = new RunActivity(distance1, time1, feeling);
-                    activityType = SportsType.Running.ToString();
+                    activity = new RunActivity(distanceInputToDouble, timeInputToDouble, feeling);
+                    sportstype = SportsType.Running;
                     break;
                 case "4":
-                    activity = new SwinActivity(distance1, time1, feeling);
-                    activityType = SportsType.Swimming.ToString();
+                    activity = new SwinActivity(distanceInputToDouble, timeInputToDouble, feeling);
+                    sportstype = SportsType.Swimming;
                     break;
                 default:
                     Console.WriteLine("Invalid activity selection. Please try again.");
@@ -127,7 +124,8 @@ namespace FitnessApp.Activity
 
         public void DisplayAllActivities()
         {
-            Console.WriteLine($"Activity:{FitnessApp.Activity.Activity.LoadSpecificActivity} \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nFeeling: \t{Feeling} \nAverage Speed: \t{CalculateAverage}");
+            //here I need to display the activity the user selected and how they felt
+            Console.WriteLine($"Activity:{/*Activity Display*/} \t \nDistance: \t{Distance} \nTime: \t{TimeTaken} \nFeeling:{/*feeling Display*/} \t \nAverage Speed: \t{CalculateAverage}");
         }
 
         internal static void LoadSpecificActivity(List<Activity> activities)
