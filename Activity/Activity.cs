@@ -1,7 +1,6 @@
 namespace FitnessApp.Activity
 {
-    // this is the Activity class
-    public class Activity : IActivity
+    public class SportActivity : ISportActivity
     {
         private double _distance;
         
@@ -32,7 +31,7 @@ namespace FitnessApp.Activity
             set { _feeling = value; }
         }
 
-        public Activity(double distance, TimeSpan timeTaken, Feeling feeling)
+        public SportActivity(double distance, TimeSpan timeTaken, Feeling feeling)
         {
             Distance = distance;
             TimeTaken = timeTaken;
@@ -51,7 +50,8 @@ namespace FitnessApp.Activity
 
         public double CalculateAverageInKmPerHour()
         {
-            var averageInKmPerHour = Distance * 1000 / (TimeTaken.Hours * 3600 + TimeTaken.Minutes / 60 + TimeTaken.Seconds / 3600);
+            
+            var averageInKmPerHour = (Distance / 1000) / (TimeTaken.Hours + (TimeTaken.Minutes / 60f) + (TimeTaken.Seconds / 3600f));
             return Math.Round(averageInKmPerHour, 2);
         }
     }

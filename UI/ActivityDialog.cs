@@ -9,8 +9,9 @@ namespace FitnessApp.UI
         
         public static void EnterActivity()
         {
-            Console.WriteLine("What type of activity do you want to enter?");
-            Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
+            Console.WriteLine("\n");
+            Console.WriteLine("What type of sportActivity do you want to enter?");
+            Console.WriteLine("1. Bike SportActivity\n2. Climb SportActivity\n3. Run SportActivity\n4. Swim SportActivity");
             Console.Write("Your selection: ");
             
             string? activityTypeInput = Console.ReadLine();
@@ -20,12 +21,12 @@ namespace FitnessApp.UI
 
                 if (!validActivities.Contains(activityTypeInput))
                 {
-                    Console.WriteLine("Invalid activity!");
+                    Console.WriteLine("Invalid sportActivity!");
                     return;
                 }
 
                 OpenActivityDialog(activityType);
-                Console.WriteLine("New Activity created!\n\n");
+                Console.WriteLine("New SportActivity created!\n\n");
             }
         }
 
@@ -37,7 +38,7 @@ namespace FitnessApp.UI
                     AddBikeActivity(activityType);
                     break;
                 case ActivityType.Climbing:
-                    AddClimbingActivity(activityType);  // this is a special activity with other data
+                    AddClimbingActivity(activityType);  // this is a special sportActivity with other data
                     break;
                 case ActivityType.Running:
                     AddRunActivity(activityType);
@@ -45,7 +46,7 @@ namespace FitnessApp.UI
                 case ActivityType.Swimming:
                     AddSwimActivity(activityType);
                     break;
-                default: throw new ArgumentException("Invalid Activity");
+                default: throw new ArgumentException("Invalid SportActivity");
             }
         }
 
@@ -66,34 +67,53 @@ namespace FitnessApp.UI
 
         private static void AddBikeActivity(ActivityType activityType)
         {
-            Console.Write("Enter Distance in Km: ");
-            string? distanceInput = Console.ReadLine();
+            Console.Write("Enter Distance in km: ");
+            string distanceInput = Console.ReadLine();
             double distance = double.Parse(distanceInput);
 
             Console.Write("Enter time taken in hh:mm:ss: ");
-            string? timeSpanInput = Console.ReadLine();
-            var timeTaken = TimeSpan.Parse(timeSpanInput);
+            string timeSpanInput = Console.ReadLine();
+            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
 
-            Console.Write("How did you feel after the activity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+            Console.Write("How did you feel after the sportActivity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
             string? feelingInput = Console.ReadLine();
-            var feeling = (Feeling)int.Parse(feelingInput);
+            Feeling feeling = (Feeling) Enum.Parse(typeof(Feeling), feelingInput);
 
-            var runActivity = new RunActivity(distance*1000, timeTaken, feeling);
+            var runActivity = new RunSportActivity(distance*1000, timeTaken, feeling);
 
             ActivityRepository.Add(runActivity);
             
-            Console.WriteLine("New Activity created!\n\n");
+            Console.WriteLine("New SportActivity created!\n\n");
         }
 
         public static void ViewAllActivities()
         {
-            var allActivities = ActivityRepository.GetAll();
+            Console.WriteLine("********************");
+            Console.WriteLine("* Your Activities  *");
+            Console.WriteLine("********************");
 
-            foreach (var activity in allActivities)
+            var allActivities = ActivityRepository.GetAll();
+            if (!allActivities.Any())
             {
-                Console.WriteLine($"Distance: {activity.Distance}, Time taken in hh:mm:ss {activity.TimeTaken}, " +
-                                  $"Average Speed in Km/h {activity.CalculateAverageInKmPerHour()}, Feeling {activity.Feeling}" );
+                Console.WriteLine("No Sport Activities yet recorded");
             }
+            else foreach (var activity in allActivities)
+            {
+                Console.WriteLine($"Distance {activity.Distance} m, Time taken {activity.TimeTaken} hh:mm:ss, " +
+                                  $"Average Speed {activity.CalculateAverageInKmPerHour()} in km/h, Feeling {activity.Feeling}" );
+            }
+
+            Console.WriteLine("Press ENTER to continue \n");
+            while (Console.ReadKey().Key != ConsoleKey.Enter){};
+        }
+
+        public static void LoadSpecificActivities()
+        {
+            Console.Write("Enter the Date of the SportActivity in the Format dd..mm.yyyy like 12.06.2021");
+            string dateOfActivityInput = Console.ReadLine();
+            DateTime dateOfActivity = DateTime.Parse(dateOfActivityInput);
+
+            //todo: load activities by date from repository
         }
     }
 }

@@ -1,18 +1,17 @@
-﻿using System.ComponentModel;
-using FitnessApp.Activity;
+﻿using FitnessApp.Activity;
 
 namespace FitnessApp.Data
 {
     internal class ActivityRepository
     {
-        private static List<IActivity> _activityList = new List<IActivity>();
+        private static readonly List<ISportActivity> _activityList = new ();
 
-        public static void Add(IActivity activity)
+        public static void Add(ISportActivity sportActivity)
         {
-            _activityList.Add(activity);
+            _activityList.Add(sportActivity);
         }
 
-        public static List<IActivity> GetAll()
+        public static List<ISportActivity> GetAll()
         {
             return _activityList;
         }

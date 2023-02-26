@@ -21,9 +21,9 @@
                 Console.WriteLine("* Select an action *");
                 Console.WriteLine("********************");
 
-                Console.WriteLine("1: Enter new activity");
+                Console.WriteLine("1: Enter new sportActivity");
                 Console.WriteLine("2: View all activities");
-                Console.WriteLine("3: Load specific activity");
+                Console.WriteLine("3: Load specific sportActivity");
                 Console.WriteLine("9: Quit application");
                 Console.Write("Your selection: ");
 
@@ -38,7 +38,7 @@
                         ActivityDialog.ViewAllActivities();
                         break;
                     case "3":
-                        //Activity.LoadSpecificActivity(activities);
+                        ActivityDialog.LoadSpecificActivities();
                         break;
                     case "9": break;
                     default:

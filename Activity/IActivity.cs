@@ -1,6 +1,6 @@
 ﻿namespace FitnessApp.Activity
 {
-    internal interface IActivity
+    internal interface ISportActivity
     {
         // Distance in m
         public double Distance { get; }
@@ -13,5 +13,7 @@
         public double CalculateAverageInMPerSecond();
 
         public double CalculateAverageInKmPerHour();
+
+        public void LoadSpecificActivity();
     }
 }
