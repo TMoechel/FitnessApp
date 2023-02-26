@@ -6,7 +6,13 @@ namespace FitnessApp.UI
     public class ActivityDialog
     {
         private static string[] validActivities = { "1", "2", "3", "4" };
+
+        private const string BikeActivityName = "Biking";
+        private const string SwimActivityName = "Swimming";
+        private const string RunActivityName = "Running";
+        private const string ClimbActivityName = "Climbing";
         
+
         public static void EnterActivity()
         {
             Console.WriteLine("\n");
@@ -113,19 +119,19 @@ namespace FitnessApp.UI
             {
                 case nameof(BikeActivity):
                 {
-                    return "Biking";
+                    return BikeActivityName;
                 }
                 case nameof(SwimActivity):
                 {
-                    return "Swimming";
+                    return SwimActivityName;
                 }
                 case nameof(ClimbActivity):
                 {
-                    return "Climbing";
+                    return ClimbActivityName;
                 }
                 case nameof(RunActivity):
                 {
-                    return "Running";
+                    return RunActivityName;
                 }
             }
             return string.Empty;
