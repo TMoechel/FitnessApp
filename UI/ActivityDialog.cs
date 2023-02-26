@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FitnessApp.Activity;
+﻿using FitnessApp.Activity;
+using FitnessApp.Data;
 
 namespace FitnessApp.UI
 {
@@ -38,45 +34,66 @@ namespace FitnessApp.UI
             switch (activityType)
             {
                 case ActivityType.Biking:
-                    AddSportActivity();
+                    AddBikeActivity(activityType);
                     break;
                 case ActivityType.Climbing:
-                    AddClimbingActivity();  // this is a special activity with other data
+                    AddClimbingActivity(activityType);  // this is a special activity with other data
                     break;
                 case ActivityType.Running:
-                    AddSportActivity();
+                    AddRunActivity(activityType);
                     break;
                 case ActivityType.Swimming:
-                    AddSportActivity();
+                    AddSwimActivity(activityType);
                     break;
                 default: throw new ArgumentException("Invalid Activity");
             }
         }
 
-        private static void AddClimbingActivity()
+        private static void AddRunActivity(ActivityType activityType)
         {
-            AddSportActivity();
+            //AddRunActivity;
         }
 
-        private static void AddSportActivity()
+        private static void AddSwimActivity(ActivityType activityType)
         {
-            Console.Write("Enter Distance: ");
-            string? distance = Console.ReadLine();
-            double distanceInputToDouble = double.Parse(distance);
+            //AddSwimActivity;
+        }
+
+        private static void AddClimbingActivity(ActivityType activityType)
+        {
+            //AddClimbingActivity();
+        }
+
+        private static void AddBikeActivity(ActivityType activityType)
+        {
+            Console.Write("Enter Distance in Km: ");
+            string? distanceInput = Console.ReadLine();
+            double distance = double.Parse(distanceInput);
 
             Console.Write("Enter time taken in hh:mm:ss: ");
-            string? timeTaken = Console.ReadLine();
-            DateTime timeInputToDateTime = DateTime.Parse(timeTaken);
-
+            string? timeSpanInput = Console.ReadLine();
+            var timeTaken = TimeSpan.Parse(timeSpanInput);
 
             Console.Write("How did you feel after the activity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
             string? feelingInput = Console.ReadLine();
-            int feelingInputToInt = int.Parse(feelingInput);
-            
-            Feeling feeling = (Feeling)(feelingInputToInt);
+            var feeling = (Feeling)int.Parse(feelingInput);
 
-            
+            var runActivity = new RunActivity(distance*1000, timeTaken, feeling);
 
+            ActivityRepository.Add(runActivity);
+            
+            Console.WriteLine("New Activity created!\n\n");
+        }
+
+        public static void ViewAllActivities()
+        {
+            var allActivities = ActivityRepository.GetAll();
+
+            foreach (var activity in allActivities)
+            {
+                Console.WriteLine($"Distance: {activity.Distance}, Time taken in hh:mm:ss {activity.TimeTaken}, " +
+                                  $"Average Speed in Km/h {activity.CalculateAverageInKmPerHour()}, Feeling {activity.Feeling}" );
+            }
         }
     }
 }

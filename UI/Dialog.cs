@@ -35,7 +35,7 @@
                         ActivityDialog.EnterActivity();
                         break;
                     case "2":
-                        //Activity.ViewAllActivities(activities);
+                        ActivityDialog.ViewAllActivities();
                         break;
                     case "3":
                         //Activity.LoadSpecificActivity(activities);

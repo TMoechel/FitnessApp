@@ -1,8 +1,8 @@
 namespace FitnessApp.Activity
 {
-    public class SwinActivity : Activity
+    public class SwimActivity : Activity
     {
-        public SwinActivity(double distance, double timeTaken, string feeling) : base(distance, timeTaken, feeling)
+        public SwimActivity(double distance, TimeSpan timeTaken, Feeling feeling) : base(distance, timeTaken, feeling)
         {
         }
     }
