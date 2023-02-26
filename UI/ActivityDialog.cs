@@ -79,9 +79,9 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling) Enum.Parse(typeof(Feeling), feelingInput);
 
-            var runActivity = new RunSportActivity(distance*1000, timeTaken, feeling);
+            var bikeActivity = new BikeActivity(distance*1000, timeTaken, feeling);
 
-            ActivityRepository.Add(runActivity);
+            ActivityRepository.Add(bikeActivity);
         }
 
         public static void ViewAllActivities()
@@ -91,13 +91,14 @@ namespace FitnessApp.UI
             Console.WriteLine("********************");
 
             var allActivities = ActivityRepository.GetAll();
+            
             if (!allActivities.Any())
             {
                 Console.WriteLine("No Sport Activities yet recorded");
             }
             else foreach (var activity in allActivities)
             {
-                Console.WriteLine($"Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
+                Console.WriteLine($"Activity: {GetActivityName(activity)}, Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
                                   $"Average Speed: {activity.CalculateAverageInKmPerHour()} km/h, Feeling: {activity.Feeling}" );
             }
 
@@ -105,7 +106,32 @@ namespace FitnessApp.UI
             while (Console.ReadKey().Key != ConsoleKey.Enter){};
         }
 
-        public static void LoadSpecificActivities()
+        private static string GetActivityName(ISportActivity activity)
+        {
+            var activityClassName = activity.GetType().Name;    
+            switch (activityClassName)
+            {
+                case nameof(BikeActivity):
+                {
+                    return "Biking";
+                }
+                case nameof(SwimActivity):
+                {
+                    return "Swimming";
+                }
+                case nameof(ClimbActivity):
+                {
+                    return "Climbing";
+                }
+                case nameof(RunActivity):
+                {
+                    return "Running";
+                }
+            }
+            return string.Empty;
+        }
+
+        public static void LoadSpecificActivitiesForDay()
         {
             Console.Write("Enter the Date of the SportActivity in the Format dd..mm.yyyy like 12.06.2021");
             string dateOfActivityInput = Console.ReadLine();

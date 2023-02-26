@@ -38,7 +38,7 @@
                         ActivityDialog.ViewAllActivities();
                         break;
                     case "3":
-                        ActivityDialog.LoadSpecificActivities();
+                        ActivityDialog.LoadSpecificActivitiesForDay();
                         break;
                     case "9": break;
                     default:
