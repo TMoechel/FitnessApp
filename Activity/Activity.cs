@@ -35,6 +35,7 @@ namespace FitnessApp.Activity
         {
             Distance = distance;
             TimeTaken = timeTaken;
+            Feeling = feeling;
         }
 
         public void LoadSpecificActivity()

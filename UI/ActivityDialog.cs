@@ -82,8 +82,6 @@ namespace FitnessApp.UI
             var runActivity = new RunSportActivity(distance*1000, timeTaken, feeling);
 
             ActivityRepository.Add(runActivity);
-            
-            Console.WriteLine("New SportActivity created!\n\n");
         }
 
         public static void ViewAllActivities()
@@ -99,8 +97,8 @@ namespace FitnessApp.UI
             }
             else foreach (var activity in allActivities)
             {
-                Console.WriteLine($"Distance {activity.Distance} m, Time taken {activity.TimeTaken} hh:mm:ss, " +
-                                  $"Average Speed {activity.CalculateAverageInKmPerHour()} in km/h, Feeling {activity.Feeling}" );
+                Console.WriteLine($"Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
+                                  $"Average Speed: {activity.CalculateAverageInKmPerHour()} km/h, Feeling: {activity.Feeling}" );
             }
 
             Console.WriteLine("Press ENTER to continue \n");
