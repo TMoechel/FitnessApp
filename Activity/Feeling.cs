@@ -2,10 +2,10 @@ namespace FitnessApp.Activity
 {
     public enum Feeling
     {
-        Bad,
-        Ok,
-        Good,
-        Strong,
-        Very_Strong
+        Bad = 1,
+        Ok = 2,
+        Good = 3,
+        Strong = 4,
+        VeryStrong = 5
     }
 }
