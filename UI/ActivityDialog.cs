@@ -58,17 +58,59 @@ namespace FitnessApp.UI
 
         private static void AddRunActivity(ActivityType activityType)
         {
-            //AddRunActivity;
+            Console.Write("Enter Distance in km: ");
+            string distanceInput = Console.ReadLine();
+            double distance = double.Parse(distanceInput);
+
+            Console.Write("Enter time taken in hh:mm:ss: ");
+            string timeSpanInput = Console.ReadLine();
+            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
+
+            Console.Write("How did you feel after Running?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+            string? feelingInput = Console.ReadLine();
+            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
+
+            var runActivity = new RunActivity(distance * 1000, timeTaken, feeling);
+
+            ActivityRepository.Add(runActivity);
         }
 
         private static void AddSwimActivity(ActivityType activityType)
         {
-            //AddSwimActivity;
+            Console.Write("Enter Distance you swan in meters: ");
+            string distanceInput = Console.ReadLine();
+            double distance = double.Parse(distanceInput);
+
+            Console.Write("Enter time taken in hh:mm:ss: ");
+            string timeSpanInput = Console.ReadLine();
+            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
+
+            Console.Write("How did you feel after Swimming?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+            string? feelingInput = Console.ReadLine();
+            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
+
+            var swimActivity = new SwimActivity(distance * 1000, timeTaken, feeling);
+
+            ActivityRepository.Add(swimActivity);
         }
 
         private static void AddClimbingActivity(ActivityType activityType)
         {
-            //AddClimbingActivity();
+            Console.Write("Enter Distance you climbed in meters: ");
+            string distanceInput = Console.ReadLine();
+            double distance = double.Parse(distanceInput);
+
+            Console.Write("Enter time taken in hh:mm:ss: ");
+            string timeSpanInput = Console.ReadLine();
+            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
+
+            Console.Write("How did you feel after Climbing?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+            string? feelingInput = Console.ReadLine();
+            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
+
+            var climbingActivity = new ClimbActivity(distance * 1000, timeTaken, feeling);
+
+            ActivityRepository.Add(climbingActivity);
         }
 
         private static void AddBikeActivity(ActivityType activityType)
