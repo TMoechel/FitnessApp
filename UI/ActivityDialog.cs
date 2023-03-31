@@ -77,7 +77,7 @@ namespace FitnessApp.UI
 
         private static void AddSwimActivity(ActivityType activityType)
         {
-            Console.Write("Enter Distance you swan in meters: ");
+            Console.Write("Enter Distance you swam in meters: ");
             string distanceInput = Console.ReadLine();
             double distance = double.Parse(distanceInput);
 
@@ -89,7 +89,7 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
 
-            var swimActivity = new SwimActivity(distance * 1000, timeTaken, feeling);
+            var swimActivity = new SwimActivity(distance, timeTaken, feeling);
 
             ActivityRepository.Add(swimActivity);
         }
@@ -108,7 +108,7 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
 
-            var climbingActivity = new ClimbActivity(distance * 1000, timeTaken, feeling);
+            var climbingActivity = new ClimbActivity(distance, timeTaken, feeling);
 
             ActivityRepository.Add(climbingActivity);
         }
