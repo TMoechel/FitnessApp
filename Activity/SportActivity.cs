@@ -26,7 +26,9 @@ namespace FitnessApp.Activity
             get { return _timeTaken; }
             set { _timeTaken = value; }
         }
-        
+
+        public DateTime Date { get; }
+
         private Feeling _feeling;
         public Feeling Feeling
         {

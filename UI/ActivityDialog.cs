@@ -15,7 +15,7 @@ namespace FitnessApp.UI
         private const string RunActivityName = "Running";
         private const string ClimbActivityName = "Climbing";
 
-        private static string directoryPath = @"U:\Module C# 10 Fundamentals\FitnessApp\Data";
+        private static string directoryPath = @"\Data";
         private static string fileName = "Activity.txt";
 
         public static void EnterActivity()
@@ -182,17 +182,22 @@ namespace FitnessApp.UI
 
             Console.WriteLine("Press ENTER to continue \n");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
         }
 
-        public static void LoadSpecificActivitiesForDay()
+        public static void LoadSpecificActivityByDate()
         {
-            Console.Write("Enter the Date of the SportActivity in the Format dd..mm.yyyy like 12.06.2021");
+            Console.Write("Enter the Date of the SportActivity in the Format dd.mm.yyyy like 12.06.2021: ");
             string dateOfActivityInput = Console.ReadLine();
             DateTime dateOfActivity = DateTime.Parse(dateOfActivityInput);
 
             //todo: load activities by date from repository
-            ActivityRepository repo = new ActivityRepository(); // create an instance of the repository class
-            //List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+            ActivityRepository repo = new ActivityRepository(); 
+            List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+
+            Console.WriteLine("Press ENTER to continue \n");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
         }
 
         internal static void CheckForExistingActivityFile()

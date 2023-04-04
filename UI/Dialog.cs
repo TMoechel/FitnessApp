@@ -47,7 +47,7 @@ namespace FitnessApp.UI
                         ActivityDialog.SaveActivities(sportActivities);
                         break;
                     case "4":
-                        ActivityDialog.LoadSpecificActivitiesForDay();
+                        ActivityDialog.LoadSpecificActivityByDate();
                         break;
                     case "9": break;
                     default:
