@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace FitnessApp.Activity
 {
-    public class BikeActivity : Activity
+    public class BikeActivity : FitnessApp.Activity.SportActivity
     {
-        public BikeActivity(double distance, double timeTaken, string feeling) : base(distance, timeTaken, feeling)
+        public BikeActivity(double distance, TimeSpan timeTaken, Feeling feeling) : base(distance, timeTaken, feeling)
         {
 
         }
