@@ -1,5 +1,8 @@
 ﻿using FitnessApp.Activity;
 using FitnessApp.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace FitnessApp.UI
 {
@@ -11,7 +14,9 @@ namespace FitnessApp.UI
         private const string SwimActivityName = "Swimming";
         private const string RunActivityName = "Running";
         private const string ClimbActivityName = "Climbing";
-        
+
+        private static string directoryPath = @"U:\Module C# 10 Fundamentals\FitnessApp\Data";
+        private static string fileName = "Activity.txt";
 
         public static void EnterActivity()
         {
@@ -132,51 +137,51 @@ namespace FitnessApp.UI
             ActivityRepository.Add(bikeActivity);
         }
 
-        public static void ViewAllActivities()
+        private static string GetActivityName(ISportActivity activity)
+        {
+            var activityClassName = activity.GetType().Name;
+            switch (activityClassName)
+            {
+                case nameof(BikeActivity):
+                    {
+                        return BikeActivityName;
+                    }
+                case nameof(SwimActivity):
+                    {
+                        return SwimActivityName;
+                    }
+                case nameof(ClimbActivity):
+                    {
+                        return ClimbActivityName;
+                    }
+                case nameof(RunActivity):
+                    {
+                        return RunActivityName;
+                    }
+            }
+            return string.Empty;
+        }
+
+        public static void DisplayAllActivities()
         {
             Console.WriteLine("********************");
             Console.WriteLine("* Your Activities  *");
             Console.WriteLine("********************");
 
             var allActivities = ActivityRepository.GetAll();
-            
+
             if (!allActivities.Any())
             {
                 Console.WriteLine("No Sport Activities yet recorded");
             }
             else foreach (var activity in allActivities)
-            {
-                Console.WriteLine($"Activity: {GetActivityName(activity)}, Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
-                                  $"Average Speed: {activity.CalculateAverageInKmPerHour()} km/h, Feeling: {activity.Feeling}" );
-            }
+                {
+                    Console.WriteLine($"Activity: {GetActivityName(activity)}, Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
+                                      $"Average Speed: {activity.CalculateAverageSpeed()} km/h, Feeling: {activity.Feeling}");
+                }
 
             Console.WriteLine("Press ENTER to continue \n");
-            while (Console.ReadKey().Key != ConsoleKey.Enter){};
-        }
-
-        private static string GetActivityName(ISportActivity activity)
-        {
-            var activityClassName = activity.GetType().Name;    
-            switch (activityClassName)
-            {
-                case nameof(BikeActivity):
-                {
-                    return BikeActivityName;
-                }
-                case nameof(SwimActivity):
-                {
-                    return SwimActivityName;
-                }
-                case nameof(ClimbActivity):
-                {
-                    return ClimbActivityName;
-                }
-                case nameof(RunActivity):
-                {
-                    return RunActivityName;
-                }
-            }
-            return string.Empty;
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
         }
 
         public static void LoadSpecificActivitiesForDay()
@@ -186,6 +191,54 @@ namespace FitnessApp.UI
             DateTime dateOfActivity = DateTime.Parse(dateOfActivityInput);
 
             //todo: load activities by date from repository
+            ActivityRepository repo = new ActivityRepository(); // create an instance of the repository class
+            //List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+        }
+
+        internal static void CheckForExistingActivityFile()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            string path = $"{directoryPath}{fileName}";
+
+            bool activityFileFound = File.Exists(path);
+
+            if (activityFileFound)
+            {
+                Console.WriteLine("An existing file with Activity data is found.");
+            }
+            else
+            {
+                //Create the airectory already
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(directoryPath);
+                Console.WriteLine("Directory is ready for saving files.");
+            }
+            Console.ForegroundColor = ConsoleColor.Blue;
+        }
+
+        internal static void SaveActivities(List<SportActivity> sportActivities)
+        {
+            string path = $"{directoryPath}{fileName}";
+            StringBuilder activitySB = new StringBuilder();
+
+            var allActivities = ActivityRepository.GetAll();
+
+            foreach (var sportactivity in allActivities)
+            {
+                activitySB.Append($"ActivityName:{GetActivityName(sportactivity)};");
+                activitySB.Append($"Distance:{sportactivity.Distance};");
+                activitySB.Append($"TimeTaken:{sportactivity.TimeTaken};");
+                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed};");
+                activitySB.Append($"Feeling:{sportactivity.Feeling};");
+                activitySB.Append(Environment.NewLine);
+            }
+
+            File.WriteAllText(path, activitySB.ToString());
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Saved Activities successfully");
+            Console.ResetColor();
         }
     }
 }

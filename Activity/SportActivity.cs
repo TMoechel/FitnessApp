@@ -1,3 +1,6 @@
+using FitnessApp.Data;
+using FitnessApp.UI;
+
 namespace FitnessApp.Activity
 {
     public class SportActivity : ISportActivity
@@ -37,11 +40,6 @@ namespace FitnessApp.Activity
             TimeTaken = timeTaken;
             Feeling = feeling;
         }
-
-        public void LoadSpecificActivity()
-        {
-            throw new NotImplementedException();
-        }
         
         public double CalculateAverageInMPerSecond()
         {
@@ -54,6 +52,11 @@ namespace FitnessApp.Activity
             
             var averageInKmPerHour = (Distance / 1000) / (TimeTaken.Hours + (TimeTaken.Minutes / 60f) + (TimeTaken.Seconds / 3600f));
             return Math.Round(averageInKmPerHour, 2);
+        }
+
+        public virtual double CalculateAverageSpeed() 
+        {
+            return CalculateAverageInKmPerHour();
         }
     }
 }

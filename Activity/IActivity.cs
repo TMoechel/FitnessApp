@@ -14,6 +14,8 @@
 
         public double CalculateAverageInKmPerHour();
 
-        public void LoadSpecificActivity();
+        public double CalculateAverageSpeed();
+
+        //public void LoadSpecificActivity();
     }
 }
