@@ -1,7 +1,8 @@
 ﻿using FitnessApp.Activity;
 using FitnessApp.Data;
-using System.Diagnostics;
+using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace FitnessApp.UI
@@ -15,7 +16,7 @@ namespace FitnessApp.UI
         private const string RunActivityName = "Running";
         private const string ClimbActivityName = "Climbing";
 
-        private static string directoryPath = @"U:\Module C# 10 Fundamentals\FitnessApp\Data";
+        private static string directoryPath = @"D:\FitnessApp\Data";
         private static string fileName = "Activity.txt";
 
         public static void EnterActivity()
@@ -177,25 +178,30 @@ namespace FitnessApp.UI
             else foreach (var activity in allActivities)
                 {
                     Console.WriteLine($"Activity: {GetActivityName(activity)}, Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
-                                      $"Average Speed: {activity.CalculateAverageSpeed()} km/h, Feeling: {activity.Feeling}");
+                                      $"Average Speed: {activity.CalculateAverageSpeed()} {activity.ShowKmM()}, Feeling: {activity.Feeling}");
                 }
 
             Console.WriteLine("Press ENTER to continue \n");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
         }
 
-        public static void LoadSpecificActivitiesForDay()
+        public static void LoadSpecificActivityByDate()
         {
-            Console.Write("Enter the Date of the SportActivity in the Format dd..mm.yyyy like 12.06.2021");
+            Console.Write("Enter the Date of the SportActivity in the Format dd.mm.yyyy like 12.06.2021: ");
             string dateOfActivityInput = Console.ReadLine();
             DateTime dateOfActivity = DateTime.Parse(dateOfActivityInput);
 
             //todo: load activities by date from repository
-            ActivityRepository repo = new ActivityRepository(); // create an instance of the repository class
-            //List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+            ActivityRepository repo = new ActivityRepository(); 
+            List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+
+            Console.WriteLine("Press ENTER to continue \n");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
         }
 
-        internal static void CheckForExistingActivityFile()
+        public static void CheckForExistingActivityFile()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
 
@@ -209,7 +215,6 @@ namespace FitnessApp.UI
             }
             else
             {
-                //Create the airectory already
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(directoryPath);
                 Console.WriteLine("Directory is ready for saving files.");
@@ -217,7 +222,7 @@ namespace FitnessApp.UI
             Console.ForegroundColor = ConsoleColor.Blue;
         }
 
-        internal static void SaveActivities(List<SportActivity> sportActivities)
+        public static void SaveActivities()
         {
             string path = $"{directoryPath}{fileName}";
             StringBuilder activitySB = new StringBuilder();
@@ -229,7 +234,7 @@ namespace FitnessApp.UI
                 activitySB.Append($"ActivityName:{GetActivityName(sportactivity)};");
                 activitySB.Append($"Distance:{sportactivity.Distance};");
                 activitySB.Append($"TimeTaken:{sportactivity.TimeTaken};");
-                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed};");
+                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed()};");
                 activitySB.Append($"Feeling:{sportactivity.Feeling};");
                 activitySB.Append(Environment.NewLine);
             }
@@ -239,6 +244,64 @@ namespace FitnessApp.UI
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Saved Activities successfully");
             Console.ResetColor();
+            Console.WriteLine("Press ENTER to continue \n");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
+        }
+
+        public static void LoadActivities(List<SportActivity> sportActivities)
+        {
+            string filePath = $"{directoryPath}{fileName}";
+            if (File.Exists(filePath))
+            {
+                sportActivities.Clear();
+
+                string[] sportActivitiesAsString = File.ReadAllLines(filePath);
+                for (int i = 0; i < sportActivitiesAsString.Length; i++)
+                {
+                    string[] sportActivitiesSplits = sportActivitiesAsString[i].Split(';');
+                    string activityName = sportActivitiesSplits[0].Substring(sportActivitiesSplits[0].IndexOf(':') + 1);
+                    double distance = double.Parse(sportActivitiesSplits[1].Substring(sportActivitiesSplits[1].IndexOf(':') + 1));
+                    TimeSpan timeTaken = TimeSpan.Parse(sportActivitiesSplits[2].Substring(sportActivitiesSplits[2].IndexOf(':') + 1));
+                    double averageSpeed = double.Parse(sportActivitiesSplits[3].Substring(sportActivitiesSplits[3].IndexOf(':') + 1));
+                    string feelingFromFile = sportActivitiesSplits[4].Substring(sportActivitiesSplits[4].IndexOf(':') + 1);
+                    Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingFromFile);
+
+                    SportActivity sportActivity = null;
+
+                    switch (activityName)
+                    {
+                        case nameof(BikeActivity):
+                            sportActivity = new BikeActivity(distance, timeTaken, feeling);
+                            break;
+                        case nameof(ClimbActivity):
+                            sportActivity = new ClimbActivity(distance, timeTaken, feeling);
+                            break;
+                        case nameof(SwimActivity):
+                            sportActivity = new SwimActivity(distance, timeTaken, feeling);
+                            break;
+                        case nameof(RunActivity):
+                            sportActivity = new RunActivity(distance, timeTaken, feeling);
+                            break;
+                    }
+
+
+                    sportActivities.Add(sportActivity);
+
+                }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Loaded {sportActivities.Count} activities!\n");
+                Console.WriteLine("Press ENTER to continue \n");
+                while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+                Console.Clear();
+            }
+            else
+            {
+                Console.WriteLine("Activity file not found. No activities loaded.");
+                Console.WriteLine("Press ENTER to continue \n");
+                while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+                Console.Clear();
+            }
         }
     }
 }

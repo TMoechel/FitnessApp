@@ -11,6 +11,7 @@ namespace FitnessApp.UI
             string userSelection;
 
             ActivityDialog.CheckForExistingActivityFile();
+            ActivityDialog.LoadActivities(sportActivities);
 
             do
             {
@@ -44,10 +45,10 @@ namespace FitnessApp.UI
                         ActivityDialog.DisplayAllActivities();
                         break;
                     case "3":
-                        ActivityDialog.SaveActivities(sportActivities);
+                        ActivityDialog.SaveActivities();
                         break;
                     case "4":
-                        ActivityDialog.LoadSpecificActivitiesForDay();
+                        ActivityDialog.LoadSpecificActivityByDate();
                         break;
                     case "9": break;
                     default:

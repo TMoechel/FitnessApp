@@ -10,5 +10,10 @@ namespace FitnessApp.Activity
         {
             return CalculateAverageInMPerSecond();
         }
+
+        public override string ShowKmM()
+        {
+            return ShowMPerSecond();
+        }
     }
 }

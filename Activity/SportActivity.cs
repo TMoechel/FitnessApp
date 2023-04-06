@@ -26,7 +26,9 @@ namespace FitnessApp.Activity
             get { return _timeTaken; }
             set { _timeTaken = value; }
         }
-        
+
+        public DateTime Date { get; }
+
         private Feeling _feeling;
         public Feeling Feeling
         {
@@ -57,6 +59,21 @@ namespace FitnessApp.Activity
         public virtual double CalculateAverageSpeed() 
         {
             return CalculateAverageInKmPerHour();
+        }
+
+        public virtual string ShowKmM()
+        {
+            return ShowKmPerHour();
+        }
+
+        public string ShowKmPerHour()
+        {
+            return "Km/h";
+        }
+
+        public string ShowMPerSecond()
+        {
+            return "m/s";
         }
     }
 }
