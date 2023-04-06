@@ -4,6 +4,16 @@ namespace FitnessApp.Activity
     {
         public ClimbActivity(double distanceKm, TimeSpan timeTaken, Feeling feeling) : base(distanceKm, timeTaken, feeling)
         {
+
+        }
+        public override double CalculateAverageSpeed()
+        {
+            return CalculateAverageInMPerSecond();
+        }
+
+        public override string ShowKmM()
+        {
+            return ShowMPerSecond();
         }
     }
 }

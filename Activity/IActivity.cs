@@ -16,6 +16,12 @@
 
         public double CalculateAverageSpeed();
 
+        public string ShowKmM();
+
+        public string ShowKmPerHour();
+
+        public string ShowMPerSecond();
+
         //public void LoadSpecificActivity();
     }
 }

@@ -1,1 +1,0 @@
-ActivityName:Biking;Distance:10000;TimeTaken:1.00:00:00;AverageSpeed:System.Func`1[System.Double];Feeling:Good;

@@ -60,5 +60,20 @@ namespace FitnessApp.Activity
         {
             return CalculateAverageInKmPerHour();
         }
+
+        public virtual string ShowKmM()
+        {
+            return ShowKmPerHour();
+        }
+
+        public string ShowKmPerHour()
+        {
+            return "Km/h";
+        }
+
+        public string ShowMPerSecond()
+        {
+            return "m/s";
+        }
     }
 }
