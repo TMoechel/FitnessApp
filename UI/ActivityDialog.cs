@@ -9,7 +9,7 @@ namespace FitnessApp.UI
 {
     public class ActivityDialog
     {
-        private static string[] validActivities = { "1", "2", "3", "4" };
+        private static ActivityType[] validActivities = { ActivityType.Biking, ActivityType.Climbing, ActivityType.Running, ActivityType.Swimming };
 
         private const string BikeActivityName = "Biking";
         private const string SwimActivityName = "Swimming";
@@ -25,13 +25,13 @@ namespace FitnessApp.UI
             Console.WriteLine("What type of sportActivity do you want to enter?");
             Console.WriteLine("1. Bike SportActivity\n2. Climb SportActivity\n3. Run SportActivity\n4. Swim SportActivity");
             Console.Write("Your selection: ");
-            
+
             string? activityTypeInput = Console.ReadLine();
             if (activityTypeInput != null)
             {
                 ActivityType activityType = (ActivityType)int.Parse(activityTypeInput!);
 
-                if (!validActivities.Contains(activityTypeInput))
+                if (!validActivities.Contains(activityType))
                 {
                     Console.WriteLine("Invalid sportActivity!");
                     return;
@@ -66,7 +66,17 @@ namespace FitnessApp.UI
         {
             Console.Write("Enter date of the activity in dd/mm/yyyy: ");
             string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+            DateTime dateOfTheActivity;
+            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            {
+                Console.WriteLine("Invalid date format!");
+                return;
+            }
+            if (dateOfTheActivity > DateTime.Today)
+            {
+                Console.WriteLine("Activity date cannot be in the future!");
+                return;
+            }
 
             Console.Write("Enter Distance in km: ");
             string distanceInput = Console.ReadLine();
@@ -89,7 +99,17 @@ namespace FitnessApp.UI
         {
             Console.Write("Enter date of the activity in dd/mm/yyyy: ");
             string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+            DateTime dateOfTheActivity;
+            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            {
+                Console.WriteLine("Invalid date format!");
+                return;
+            }
+            if (dateOfTheActivity > DateTime.Today)
+            {
+                Console.WriteLine("Activity date cannot be in the future!");
+                return;
+            }
 
             Console.Write("Enter Distance you swam in meters: ");
             string distanceInput = Console.ReadLine();
@@ -112,7 +132,17 @@ namespace FitnessApp.UI
         {
             Console.Write("Enter date of the activity in dd/mm/yyyy: ");
             string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+            DateTime dateOfTheActivity;
+            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            {
+                Console.WriteLine("Invalid date format!");
+                return;
+            }
+            if (dateOfTheActivity > DateTime.Today)
+            {
+                Console.WriteLine("Activity date cannot be in the future!");
+                return;
+            }
 
             Console.Write("Enter Distance you climbed in meters: ");
             string distanceInput = Console.ReadLine();
@@ -135,7 +165,17 @@ namespace FitnessApp.UI
         {
             Console.Write("Enter date of the activity in dd/mm/yyyy: ");
             string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+            DateTime dateOfTheActivity;
+            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            {
+                Console.WriteLine("Invalid date format!");
+                return;
+            }
+            if (dateOfTheActivity > DateTime.Today)
+            {
+                Console.WriteLine("Activity date cannot be in the future!");
+                return;
+            }
 
             Console.Write("Enter Distance in km: ");
             string distanceInput = Console.ReadLine();
@@ -147,9 +187,9 @@ namespace FitnessApp.UI
 
             Console.Write("How did you feel after the sportActivity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
             string? feelingInput = Console.ReadLine();
-            Feeling feeling = (Feeling) Enum.Parse(typeof(Feeling), feelingInput);
+            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
 
-            var bikeActivity = new BikeActivity(dateOfTheActivity, distance *1000, timeTaken, feeling);
+            var bikeActivity = new BikeActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
 
             ActivityRepository.Add(bikeActivity);
         }
@@ -186,17 +226,21 @@ namespace FitnessApp.UI
             Console.WriteLine("********************");
 
             var allActivities = ActivityRepository.GetAll();
-           
+
 
             if (!allActivities.Any())
             {
                 Console.WriteLine("No Sport Activities yet recorded");
             }
             else foreach (var activity in allActivities)
-                {
-                    Console.WriteLine($"Activity: {GetActivityName(activity)}, Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
-                                      $"Average Speed: {activity.CalculateAverageSpeed()} {activity.ShowKmM()}, Feeling: {activity.Feeling}, Date: {activity.ActivityDate}");
-                }
+            {
+                Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
+                Console.WriteLine($"Distance: {activity.Distance}");
+                Console.WriteLine($"Time: {activity.TimeTaken}");
+                Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
+                Console.WriteLine($"Feeling: {activity.Feeling}");
+                Console.WriteLine($"Date: {activity.ActivityDate}\n");
+            }
 
             Console.WriteLine("Press ENTER to continue \n");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { };
@@ -205,13 +249,28 @@ namespace FitnessApp.UI
 
         public static void LoadSpecificActivityByDate()
         {
-            Console.Write("Enter the Date of the SportActivity in the Format dd.mm.yyyy like 12/06/2021: ");
+            Console.Write("Enter the Date of the SportActivity in the Format dd/mm/yyyy like 12/06/2021: ");
             string dateOfActivityInput = Console.ReadLine();
-            DateTime dateOfActivity = DateTime.Parse(dateOfActivityInput);
+            DateTime dateOfActivity;
+            if (!DateTime.TryParse(dateOfActivityInput, out dateOfActivity))
+            {
+                Console.WriteLine("Invalid date format!");
+                return;
+            }
 
-            //todo: load activities by date from repository
-            ActivityRepository repo = new ActivityRepository(); 
+            ActivityRepository repo = new ActivityRepository();
             List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+
+            Console.WriteLine($"\nActivities on {dateOfActivity.ToShortDateString()}:");
+            foreach (var activity in activities)
+            {
+                Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
+                Console.WriteLine($"Distance: {activity.Distance} meters");
+                Console.WriteLine($"Time: {activity.TimeTaken}");
+                Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
+                Console.WriteLine($"Feeling: {activity.Feeling}");
+                Console.WriteLine($"Date: {activity.ActivityDate}\n");
+            }
 
             Console.WriteLine("Press ENTER to continue \n");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { };
@@ -249,9 +308,9 @@ namespace FitnessApp.UI
             foreach (var sportactivity in allActivities)
             {
                 activitySB.Append($"ActivityName:{GetActivityName(sportactivity)};");
-                activitySB.Append($"Distance:{sportactivity.Distance};");
+                activitySB.Append($"Distance:{sportactivity.Distance} meters");
                 activitySB.Append($"TimeTaken:{sportactivity.TimeTaken};");
-                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed()};");
+                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed() + " " + sportactivity.ShowKmM()};");
                 activitySB.Append($"Feeling:{sportactivity.Feeling};");
                 activitySB.Append($"Date:{sportactivity.ActivityDate};");
                 activitySB.Append(Environment.NewLine);

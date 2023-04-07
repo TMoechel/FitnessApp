@@ -26,8 +26,7 @@ namespace FitnessApp.Data
                     activitiesByDate.Add(activity);
                 }
             }
-            return activitiesByDate; ;
+            return activitiesByDate;
         }
-
     }
 }
