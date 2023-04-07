@@ -64,6 +64,10 @@ namespace FitnessApp.UI
 
         private static void AddRunActivity(ActivityType activityType)
         {
+            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+            string dateInput = Console.ReadLine();
+            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+
             Console.Write("Enter Distance in km: ");
             string distanceInput = Console.ReadLine();
             double distance = double.Parse(distanceInput);
@@ -76,13 +80,17 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
 
-            var runActivity = new RunActivity(distance * 1000, timeTaken, feeling);
+            var runActivity = new RunActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
 
             ActivityRepository.Add(runActivity);
         }
 
         private static void AddSwimActivity(ActivityType activityType)
         {
+            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+            string dateInput = Console.ReadLine();
+            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+
             Console.Write("Enter Distance you swam in meters: ");
             string distanceInput = Console.ReadLine();
             double distance = double.Parse(distanceInput);
@@ -95,13 +103,17 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
 
-            var swimActivity = new SwimActivity(distance, timeTaken, feeling);
+            var swimActivity = new SwimActivity(dateOfTheActivity, distance, timeTaken, feeling);
 
             ActivityRepository.Add(swimActivity);
         }
 
         private static void AddClimbingActivity(ActivityType activityType)
         {
+            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+            string dateInput = Console.ReadLine();
+            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+
             Console.Write("Enter Distance you climbed in meters: ");
             string distanceInput = Console.ReadLine();
             double distance = double.Parse(distanceInput);
@@ -114,13 +126,17 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
 
-            var climbingActivity = new ClimbActivity(distance, timeTaken, feeling);
+            var climbingActivity = new ClimbActivity(dateOfTheActivity, distance, timeTaken, feeling);
 
             ActivityRepository.Add(climbingActivity);
         }
 
         private static void AddBikeActivity(ActivityType activityType)
         {
+            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+            string dateInput = Console.ReadLine();
+            DateTime dateOfTheActivity = DateTime.Parse(dateInput);
+
             Console.Write("Enter Distance in km: ");
             string distanceInput = Console.ReadLine();
             double distance = double.Parse(distanceInput);
@@ -133,7 +149,7 @@ namespace FitnessApp.UI
             string? feelingInput = Console.ReadLine();
             Feeling feeling = (Feeling) Enum.Parse(typeof(Feeling), feelingInput);
 
-            var bikeActivity = new BikeActivity(distance*1000, timeTaken, feeling);
+            var bikeActivity = new BikeActivity(dateOfTheActivity, distance *1000, timeTaken, feeling);
 
             ActivityRepository.Add(bikeActivity);
         }
@@ -170,6 +186,7 @@ namespace FitnessApp.UI
             Console.WriteLine("********************");
 
             var allActivities = ActivityRepository.GetAll();
+           
 
             if (!allActivities.Any())
             {
@@ -178,7 +195,7 @@ namespace FitnessApp.UI
             else foreach (var activity in allActivities)
                 {
                     Console.WriteLine($"Activity: {GetActivityName(activity)}, Distance: {activity.Distance} m, Time taken: {activity.TimeTaken} hh:mm:ss, " +
-                                      $"Average Speed: {activity.CalculateAverageSpeed()} {activity.ShowKmM()}, Feeling: {activity.Feeling}");
+                                      $"Average Speed: {activity.CalculateAverageSpeed()} {activity.ShowKmM()}, Feeling: {activity.Feeling}, Date: {activity.ActivityDate}");
                 }
 
             Console.WriteLine("Press ENTER to continue \n");
@@ -188,7 +205,7 @@ namespace FitnessApp.UI
 
         public static void LoadSpecificActivityByDate()
         {
-            Console.Write("Enter the Date of the SportActivity in the Format dd.mm.yyyy like 12.06.2021: ");
+            Console.Write("Enter the Date of the SportActivity in the Format dd.mm.yyyy like 12/06/2021: ");
             string dateOfActivityInput = Console.ReadLine();
             DateTime dateOfActivity = DateTime.Parse(dateOfActivityInput);
 
@@ -236,6 +253,7 @@ namespace FitnessApp.UI
                 activitySB.Append($"TimeTaken:{sportactivity.TimeTaken};");
                 activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed()};");
                 activitySB.Append($"Feeling:{sportactivity.Feeling};");
+                activitySB.Append($"Date:{sportactivity.ActivityDate};");
                 activitySB.Append(Environment.NewLine);
             }
 
@@ -266,22 +284,23 @@ namespace FitnessApp.UI
                     double averageSpeed = double.Parse(sportActivitiesSplits[3].Substring(sportActivitiesSplits[3].IndexOf(':') + 1));
                     string feelingFromFile = sportActivitiesSplits[4].Substring(sportActivitiesSplits[4].IndexOf(':') + 1);
                     Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingFromFile);
+                    DateTime activityDate = DateTime.Parse(sportActivitiesSplits[5].Substring(sportActivitiesSplits[5].IndexOf(':') + 1));
 
                     SportActivity sportActivity = null;
 
                     switch (activityName)
                     {
                         case nameof(BikeActivity):
-                            sportActivity = new BikeActivity(distance, timeTaken, feeling);
+                            sportActivity = new BikeActivity(activityDate, distance, timeTaken, feeling);
                             break;
                         case nameof(ClimbActivity):
-                            sportActivity = new ClimbActivity(distance, timeTaken, feeling);
+                            sportActivity = new ClimbActivity(activityDate, distance, timeTaken, feeling);
                             break;
                         case nameof(SwimActivity):
-                            sportActivity = new SwimActivity(distance, timeTaken, feeling);
+                            sportActivity = new SwimActivity(activityDate, distance, timeTaken, feeling);
                             break;
                         case nameof(RunActivity):
-                            sportActivity = new RunActivity(distance, timeTaken, feeling);
+                            sportActivity = new RunActivity(activityDate, distance, timeTaken, feeling);
                             break;
                     }
 

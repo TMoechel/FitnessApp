@@ -27,7 +27,13 @@ namespace FitnessApp.Activity
             set { _timeTaken = value; }
         }
 
-        public DateTime Date { get; }
+        private DateTime _activityDate;
+
+        public DateTime ActivityDate
+        {
+            get { return _activityDate; }
+            set { _activityDate = value; }
+        }
 
         private Feeling _feeling;
         public Feeling Feeling
@@ -36,8 +42,9 @@ namespace FitnessApp.Activity
             set { _feeling = value; }
         }
 
-        public SportActivity(double distance, TimeSpan timeTaken, Feeling feeling)
+        public SportActivity(DateTime activityDate, double distance, TimeSpan timeTaken, Feeling feeling)
         {
+            ActivityDate = activityDate;
             Distance = distance;
             TimeTaken = timeTaken;
             Feeling = feeling;

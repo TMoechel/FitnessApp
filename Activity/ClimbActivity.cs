@@ -2,7 +2,7 @@ namespace FitnessApp.Activity
 {
     public class ClimbActivity : FitnessApp.Activity.SportActivity
     {
-        public ClimbActivity(double distanceKm, TimeSpan timeTaken, Feeling feeling) : base(distanceKm, timeTaken, feeling)
+        public ClimbActivity(DateTime dateOfActivity, double distance, TimeSpan timeTaken, Feeling feeling) : base(dateOfActivity, distance, timeTaken, feeling)
         {
 
         }
