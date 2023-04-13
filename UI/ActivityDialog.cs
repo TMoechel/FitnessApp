@@ -26,20 +26,46 @@ namespace FitnessApp.UI
             Console.WriteLine("1. Bike SportActivity\n2. Climb SportActivity\n3. Run SportActivity\n4. Swim SportActivity");
             Console.Write("Your selection: ");
 
-            string? activityTypeInput = Console.ReadLine();
-            if (activityTypeInput != null)
+            try
             {
-                ActivityType activityType = (ActivityType)int.Parse(activityTypeInput!);
+                string? activityTypeInput = Console.ReadLine();
+
+                if (activityTypeInput == null)
+                {
+                    throw new NullReferenceException("Activity type input cannot be null!");
+                }
+
+                if (!int.TryParse(activityTypeInput, out int activityTypeNumber))
+                {
+                    throw new FormatException("Activity type input must be a valid integer!");
+                }
+
+                ActivityType activityType = (ActivityType)activityTypeNumber;
 
                 if (!validActivities.Contains(activityType))
                 {
-                    Console.WriteLine("Invalid sportActivity!");
-                    return;
+                    throw new ArgumentOutOfRangeException("Type of Sport Activity", "Invalid sportActivity!");
                 }
 
                 OpenActivityDialog(activityType);
                 Console.WriteLine("New SportActivity created!\n\n");
             }
+            catch (FormatException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            Console.WriteLine("Press ENTER to continue \n");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
         }
 
         private static void OpenActivityDialog(ActivityType activityType)
@@ -64,135 +90,233 @@ namespace FitnessApp.UI
 
         private static void AddRunActivity(ActivityType activityType)
         {
-            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
-            string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity;
-            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            try
             {
-                Console.WriteLine("Invalid date format!");
-                return;
+                Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+                string dateInput = Console.ReadLine();
+                DateTime dateOfTheActivity;
+                if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+                {
+                    throw new FormatException("Invalid date format!");
+                }
+                if (dateOfTheActivity > DateTime.Today)
+                {
+                    throw new ArgumentOutOfRangeException("dateOfTheActivity", "Activity date cannot be in the future!");
+                }
+
+                Console.Write("Enter Distance in km: ");
+                string distanceInput = Console.ReadLine();
+                double distance;
+                if (!double.TryParse(distanceInput, out distance))
+                {
+                    throw new FormatException("Invalid distance format!");
+                }
+
+                Console.Write("Enter time taken in hh:mm:ss: ");
+                string timeSpanInput = Console.ReadLine();
+                TimeSpan timeTaken;
+                if (!TimeSpan.TryParse(timeSpanInput, out timeTaken))
+                {
+                    throw new FormatException("Invalid time taken format!");
+                }
+
+                Console.Write("How did you feel after Running?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+                string? feelingInput = Console.ReadLine();
+                if (feelingInput == null)
+                {
+                    throw new NullReferenceException("Feeling input cannot be null!");
+                }
+                Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
+
+                var runActivity = new RunActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
+
+                ActivityRepository.Add(runActivity);
             }
-            if (dateOfTheActivity > DateTime.Today)
+            catch (FormatException ex)
             {
-                Console.WriteLine("Activity date cannot be in the future!");
-                return;
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            Console.Write("Enter Distance in km: ");
-            string distanceInput = Console.ReadLine();
-            double distance = double.Parse(distanceInput);
-
-            Console.Write("Enter time taken in hh:mm:ss: ");
-            string timeSpanInput = Console.ReadLine();
-            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
-
-            Console.Write("How did you feel after Running?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
-            string? feelingInput = Console.ReadLine();
-            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
-
-            var runActivity = new RunActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
-
-            ActivityRepository.Add(runActivity);
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         private static void AddSwimActivity(ActivityType activityType)
         {
-            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
-            string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity;
-            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            try
             {
-                Console.WriteLine("Invalid date format!");
-                return;
+                Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+                string dateInput = Console.ReadLine();
+                DateTime dateOfTheActivity;
+                if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+                {
+                    throw new FormatException("Invalid date format!");
+                }
+                if (dateOfTheActivity > DateTime.Today)
+                {
+                    throw new ArgumentOutOfRangeException("dateOfTheActivity", "Activity date cannot be in the future!");
+                }
+
+                Console.Write("Enter Distance you swam in meters: ");
+                string distanceInput = Console.ReadLine();
+                double distance;
+                if (!double.TryParse(distanceInput, out distance))
+                {
+                    throw new FormatException("Invalid distance format!");
+                }
+
+                Console.Write("Enter time taken in hh:mm:ss: ");
+                string timeSpanInput = Console.ReadLine();
+                TimeSpan timeTaken;
+                if (!TimeSpan.TryParse(timeSpanInput, out timeTaken))
+                {
+                    throw new FormatException("Invalid time taken format!");
+                }
+
+                Console.Write("How did you feel after Swimming?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+                string? feelingInput = Console.ReadLine();
+                if (feelingInput == null)
+                {
+                    throw new NullReferenceException("Feeling input cannot be null!");
+                }
+                Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
+
+                var swimActivity = new SwimActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
+
+                ActivityRepository.Add(swimActivity);
             }
-            if (dateOfTheActivity > DateTime.Today)
+            catch (FormatException ex)
             {
-                Console.WriteLine("Activity date cannot be in the future!");
-                return;
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            Console.Write("Enter Distance you swam in meters: ");
-            string distanceInput = Console.ReadLine();
-            double distance = double.Parse(distanceInput);
-
-            Console.Write("Enter time taken in hh:mm:ss: ");
-            string timeSpanInput = Console.ReadLine();
-            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
-
-            Console.Write("How did you feel after Swimming?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
-            string? feelingInput = Console.ReadLine();
-            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
-
-            var swimActivity = new SwimActivity(dateOfTheActivity, distance, timeTaken, feeling);
-
-            ActivityRepository.Add(swimActivity);
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
+
 
         private static void AddClimbingActivity(ActivityType activityType)
         {
-            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
-            string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity;
-            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            try
             {
-                Console.WriteLine("Invalid date format!");
-                return;
+                Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+                string dateInput = Console.ReadLine();
+                DateTime dateOfTheActivity;
+                if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+                {
+                    throw new FormatException("Invalid date format!");
+                }
+                if (dateOfTheActivity > DateTime.Today)
+                {
+                    throw new ArgumentOutOfRangeException("dateOfTheActivity", "Activity date cannot be in the future!");
+                }
+
+                Console.Write("Enter Distance you climbed in meters: ");
+                string distanceInput = Console.ReadLine();
+                double distance;
+                if (!double.TryParse(distanceInput, out distance))
+                {
+                    throw new FormatException("Invalid distance format!");
+                }
+
+                Console.Write("Enter time taken in hh:mm:ss: ");
+                string timeSpanInput = Console.ReadLine();
+                TimeSpan timeTaken;
+                if (!TimeSpan.TryParse(timeSpanInput, out timeTaken))
+                {
+                    throw new FormatException("Invalid time taken format!");
+                }
+
+                Console.Write("How did you feel after Climbing?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+                string? feelingInput = Console.ReadLine();
+                if (feelingInput == null)
+                {
+                    throw new NullReferenceException("Feeling input cannot be null!");
+                }
+                Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
+
+                var climbActivity = new ClimbActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
+
+                ActivityRepository.Add(climbActivity);
             }
-            if (dateOfTheActivity > DateTime.Today)
+            catch (FormatException ex)
             {
-                Console.WriteLine("Activity date cannot be in the future!");
-                return;
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            Console.Write("Enter Distance you climbed in meters: ");
-            string distanceInput = Console.ReadLine();
-            double distance = double.Parse(distanceInput);
-
-            Console.Write("Enter time taken in hh:mm:ss: ");
-            string timeSpanInput = Console.ReadLine();
-            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
-
-            Console.Write("How did you feel after Climbing?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
-            string? feelingInput = Console.ReadLine();
-            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
-
-            var climbingActivity = new ClimbActivity(dateOfTheActivity, distance, timeTaken, feeling);
-
-            ActivityRepository.Add(climbingActivity);
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
+
 
         private static void AddBikeActivity(ActivityType activityType)
         {
-            Console.Write("Enter date of the activity in dd/mm/yyyy: ");
-            string dateInput = Console.ReadLine();
-            DateTime dateOfTheActivity;
-            if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
+            try
             {
-                Console.WriteLine("Invalid date format!");
-                return;
+                Console.Write("Enter date of the activity in dd/mm/yyyy: ");
+                string dateInput = Console.ReadLine();
+                if (!DateTime.TryParse(dateInput, out DateTime dateOfTheActivity))
+                {
+                    throw new FormatException("Invalid date format!");
+                }
+                if (dateOfTheActivity > DateTime.Today)
+                {
+                    throw new ArgumentOutOfRangeException("dateOfTheActivity", "Activity date cannot be in the future!");
+                }
+
+                Console.Write("Enter Distance in km: ");
+                string distanceInput = Console.ReadLine();
+                if (!double.TryParse(distanceInput, out double distance) || distance < 0)
+                {
+                    throw new FormatException("Invalid distance format!");
+                }
+
+                Console.Write("Enter time taken in hh:mm:ss: ");
+                string timeSpanInput = Console.ReadLine();
+                if (!TimeSpan.TryParse(timeSpanInput, out TimeSpan timeTaken) || timeTaken < TimeSpan.Zero)
+                {
+                    throw new FormatException("Invalid time taken format!");
+                }
+
+                Console.Write("How did you feel after Biking?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
+                string feelingInput = Console.ReadLine();
+                if (!Enum.TryParse<Feeling>(feelingInput, out Feeling feeling))
+                {
+                    throw new FormatException("Invalid feeling format!");
+                }
+
+                var bikeActivity = new BikeActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
+
+                ActivityRepository.Add(bikeActivity);
             }
-            if (dateOfTheActivity > DateTime.Today)
+            catch (FormatException ex)
             {
-                Console.WriteLine("Activity date cannot be in the future!");
-                return;
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            Console.Write("Enter Distance in km: ");
-            string distanceInput = Console.ReadLine();
-            double distance = double.Parse(distanceInput);
-
-            Console.Write("Enter time taken in hh:mm:ss: ");
-            string timeSpanInput = Console.ReadLine();
-            TimeSpan timeTaken = TimeSpan.Parse(timeSpanInput);
-
-            Console.Write("How did you feel after the sportActivity?:\n1 = Bad \n2 = Ok \n3 = Good \n4 = Strong \n5 = Very Strong \nChoose a number: ");
-            string? feelingInput = Console.ReadLine();
-            Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingInput);
-
-            var bikeActivity = new BikeActivity(dateOfTheActivity, distance * 1000, timeTaken, feeling);
-
-            ActivityRepository.Add(bikeActivity);
-        }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }           
 
         private static string GetActivityName(ISportActivity activity)
         {
@@ -233,14 +357,14 @@ namespace FitnessApp.UI
                 Console.WriteLine("No Sport Activities yet recorded");
             }
             else foreach (var activity in allActivities)
-            {
-                Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
-                Console.WriteLine($"Distance: {activity.Distance}");
-                Console.WriteLine($"Time: {activity.TimeTaken}");
-                Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
-                Console.WriteLine($"Feeling: {activity.Feeling}");
-                Console.WriteLine($"Date: {activity.ActivityDate}\n");
-            }
+                {
+                    Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
+                    Console.WriteLine($"Distance: {activity.Distance}");
+                    Console.WriteLine($"Time: {activity.TimeTaken}");
+                    Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
+                    Console.WriteLine($"Feeling: {activity.Feeling}");
+                    Console.WriteLine($"Date: {activity.ActivityDate}\n");
+                }
 
             Console.WriteLine("Press ENTER to continue \n");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { };
@@ -249,27 +373,34 @@ namespace FitnessApp.UI
 
         public static void LoadSpecificActivityByDate()
         {
-            Console.Write("Enter the Date of the SportActivity in the Format dd/mm/yyyy like 12/06/2021: ");
-            string dateOfActivityInput = Console.ReadLine();
-            DateTime dateOfActivity;
-            if (!DateTime.TryParse(dateOfActivityInput, out dateOfActivity))
+            try
             {
-                Console.WriteLine("Invalid date format!");
-                return;
+                Console.Write("Enter the Date of the SportActivity in the Format dd/mm/yyyy like 12/06/2021: ");
+                string dateOfActivityInput = Console.ReadLine();
+                DateTime dateOfActivity;
+                if (!DateTime.TryParse(dateOfActivityInput, out dateOfActivity))
+                {
+                    throw new FormatException("Invalid date format!");
+                }
+
+                ActivityRepository repo = new ActivityRepository();
+
+                List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
+
+                Console.WriteLine($"\nActivities on {dateOfActivity.ToShortDateString()}:");
+                foreach (var activity in activities)
+                {
+                    Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
+                    Console.WriteLine($"Distance: {activity.Distance} meters");
+                    Console.WriteLine($"Time: {activity.TimeTaken}");
+                    Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
+                    Console.WriteLine($"Feeling: {activity.Feeling}");
+                    Console.WriteLine($"Date: {activity.ActivityDate}\n");
+                }
             }
-
-            ActivityRepository repo = new ActivityRepository();
-            List<SportActivity> activities = repo.GetActivitiesByDate(dateOfActivity);
-
-            Console.WriteLine($"\nActivities on {dateOfActivity.ToShortDateString()}:");
-            foreach (var activity in activities)
+            catch (FormatException ex)
             {
-                Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
-                Console.WriteLine($"Distance: {activity.Distance} meters");
-                Console.WriteLine($"Time: {activity.TimeTaken}");
-                Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
-                Console.WriteLine($"Feeling: {activity.Feeling}");
-                Console.WriteLine($"Date: {activity.ActivityDate}\n");
+                Console.WriteLine($"Error: {ex.Message}");
             }
 
             Console.WriteLine("Press ENTER to continue \n");
