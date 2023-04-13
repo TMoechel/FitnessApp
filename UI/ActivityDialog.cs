@@ -26,10 +26,9 @@ namespace FitnessApp.UI
             Console.WriteLine("1. Bike SportActivity\n2. Climb SportActivity\n3. Run SportActivity\n4. Swim SportActivity");
             Console.Write("Your selection: ");
 
+            string? activityTypeInput = Console.ReadLine();
             try
             {
-                string? activityTypeInput = Console.ReadLine();
-
                 if (activityTypeInput == null)
                 {
                     throw new NullReferenceException("Activity type input cannot be null!");
@@ -49,6 +48,10 @@ namespace FitnessApp.UI
 
                 OpenActivityDialog(activityType);
                 Console.WriteLine("New SportActivity created!\n\n");
+
+                Console.WriteLine("Press ENTER to continue \n");
+                while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+                Console.Clear();
             }
             catch (FormatException ex)
             {
@@ -62,10 +65,6 @@ namespace FitnessApp.UI
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-
-            Console.WriteLine("Press ENTER to continue \n");
-            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
-            Console.Clear();
         }
 
         private static void OpenActivityDialog(ActivityType activityType)
@@ -441,9 +440,9 @@ namespace FitnessApp.UI
                 activitySB.Append($"ActivityName:{GetActivityName(sportactivity)};");
                 activitySB.Append($"Distance:{sportactivity.Distance} meters");
                 activitySB.Append($"TimeTaken:{sportactivity.TimeTaken};");
-                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed() + " " + sportactivity.ShowKmM()};");
+                activitySB.Append($"AverageSpeed:{sportactivity.CalculateAverageSpeed()} {sportactivity.ShowKmM()};");
                 activitySB.Append($"Feeling:{sportactivity.Feeling};");
-                activitySB.Append($"Date:{sportactivity.ActivityDate};");
+                activitySB.Append($"Date:{sportactivity.ActivityDate.ToString()};");
                 activitySB.Append(Environment.NewLine);
             }
 
