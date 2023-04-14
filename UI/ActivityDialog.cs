@@ -53,17 +53,17 @@ namespace FitnessApp.UI
                 while (Console.ReadKey().Key != ConsoleKey.Enter) { };
                 Console.Clear();
             }
-            catch (FormatException ex)
+            catch (FormatException fx)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {fx.Message}");
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException nrex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {nrex.Message}");
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException aoorex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {aoorex.Message}");
             }
         }
 
@@ -131,17 +131,17 @@ namespace FitnessApp.UI
 
                 ActivityRepository.Add(runActivity);
             }
-            catch (FormatException ex)
+            catch (FormatException fex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {fex.Message}");
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException nfex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {nfex.Message}");
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException aoorex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {aoorex.Message}");
             }
         }
 
@@ -189,17 +189,17 @@ namespace FitnessApp.UI
 
                 ActivityRepository.Add(swimActivity);
             }
-            catch (FormatException ex)
+            catch (FormatException fex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {fex.Message}");
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException nrex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {nrex.Message}");
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException aoorex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {aoorex.Message}");
             }
         }
 
@@ -248,17 +248,17 @@ namespace FitnessApp.UI
 
                 ActivityRepository.Add(climbActivity);
             }
-            catch (FormatException ex)
+            catch (FormatException fex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {fex.Message}");
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException nrex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {nrex.Message}");
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException aoorex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {aoorex.Message}");
             }
         }
 
@@ -303,17 +303,17 @@ namespace FitnessApp.UI
 
                 ActivityRepository.Add(bikeActivity);
             }
-            catch (FormatException ex)
+            catch (FormatException fex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {fex.Message}");
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException nrex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {nrex.Message}");
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException aoorex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {aoorex.Message}");
             }
         }           
 
@@ -397,9 +397,9 @@ namespace FitnessApp.UI
                     Console.WriteLine($"Date: {activity.ActivityDate}\n");
                 }
             }
-            catch (FormatException ex)
+            catch (FormatException fex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {fex.Message}");
             }
 
             Console.WriteLine("Press ENTER to continue \n");
@@ -459,56 +459,82 @@ namespace FitnessApp.UI
         public static void LoadActivities(List<SportActivity> sportActivities)
         {
             string filePath = $"{directoryPath}{fileName}";
-            if (File.Exists(filePath))
+            try
             {
-                sportActivities.Clear();
-
-                string[] sportActivitiesAsString = File.ReadAllLines(filePath);
-                for (int i = 0; i < sportActivitiesAsString.Length; i++)
+                if (File.Exists(filePath))
                 {
-                    string[] sportActivitiesSplits = sportActivitiesAsString[i].Split(';');
-                    string activityName = sportActivitiesSplits[0].Substring(sportActivitiesSplits[0].IndexOf(':') + 1);
-                    double distance = double.Parse(sportActivitiesSplits[1].Substring(sportActivitiesSplits[1].IndexOf(':') + 1));
-                    TimeSpan timeTaken = TimeSpan.Parse(sportActivitiesSplits[2].Substring(sportActivitiesSplits[2].IndexOf(':') + 1));
-                    double averageSpeed = double.Parse(sportActivitiesSplits[3].Substring(sportActivitiesSplits[3].IndexOf(':') + 1));
-                    string feelingFromFile = sportActivitiesSplits[4].Substring(sportActivitiesSplits[4].IndexOf(':') + 1);
-                    Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingFromFile);
-                    DateTime activityDate = DateTime.Parse(sportActivitiesSplits[5].Substring(sportActivitiesSplits[5].IndexOf(':') + 1));
+                    sportActivities.Clear();
 
-                    SportActivity sportActivity = null;
-
-                    switch (activityName)
+                    string[] sportActivitiesAsString = File.ReadAllLines(filePath);
+                    for (int i = 0; i < sportActivitiesAsString.Length; i++)
                     {
-                        case nameof(BikeActivity):
-                            sportActivity = new BikeActivity(activityDate, distance, timeTaken, feeling);
-                            break;
-                        case nameof(ClimbActivity):
-                            sportActivity = new ClimbActivity(activityDate, distance, timeTaken, feeling);
-                            break;
-                        case nameof(SwimActivity):
-                            sportActivity = new SwimActivity(activityDate, distance, timeTaken, feeling);
-                            break;
-                        case nameof(RunActivity):
-                            sportActivity = new RunActivity(activityDate, distance, timeTaken, feeling);
-                            break;
+                        string[] sportActivitiesSplits = sportActivitiesAsString[i].Split(';');
+                        string activityName = sportActivitiesSplits[0].Substring(sportActivitiesSplits[0].IndexOf(':') + 1);
+                        double distance = double.Parse(sportActivitiesSplits[1].Substring(sportActivitiesSplits[1].IndexOf(':') + 1));
+                        TimeSpan timeTaken = TimeSpan.Parse(sportActivitiesSplits[2].Substring(sportActivitiesSplits[2].IndexOf(':') + 1));
+                        double averageSpeed = double.Parse(sportActivitiesSplits[3].Substring(sportActivitiesSplits[3].IndexOf(':') + 1));
+                        string feelingFromFile = sportActivitiesSplits[4].Substring(sportActivitiesSplits[4].IndexOf(':') + 1);
+                        Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), feelingFromFile);
+                        DateTime activityDate = DateTime.Parse(sportActivitiesSplits[5].Substring(sportActivitiesSplits[5].IndexOf(':') + 1));
+
+                        SportActivity sportActivity = null;
+
+                        switch (activityName)
+                        {
+                            case nameof(BikeActivity):
+                                sportActivity = new BikeActivity(activityDate, distance, timeTaken, feeling);
+                                break;
+                            case nameof(ClimbActivity):
+                                sportActivity = new ClimbActivity(activityDate, distance, timeTaken, feeling);
+                                break;
+                            case nameof(SwimActivity):
+                                sportActivity = new SwimActivity(activityDate, distance, timeTaken, feeling);
+                                break;
+                            case nameof(RunActivity):
+                                sportActivity = new RunActivity(activityDate, distance, timeTaken, feeling);
+                                break;
+                        }
+
+
+                        sportActivities.Add(sportActivity);
+
                     }
-
-
-                    sportActivities.Add(sportActivity);
-
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Loaded {sportActivities.Count} activities!\n");
+                    Console.WriteLine("Press ENTER to continue \n");
+                    while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+                    Console.Clear();
                 }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Loaded {sportActivities.Count} activities!\n");
-                Console.WriteLine("Press ENTER to continue \n");
-                while (Console.ReadKey().Key != ConsoleKey.Enter) { };
-                Console.Clear();
+                else
+                {
+                    Console.WriteLine("Activity file not found. No activities loaded.");
+                    Console.WriteLine("Press ENTER to continue \n");
+                    while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+                    Console.Clear();
+                }
             }
-            else
+            catch (IndexOutOfRangeException iex)
             {
-                Console.WriteLine("Activity file not found. No activities loaded.");
-                Console.WriteLine("Press ENTER to continue \n");
-                while (Console.ReadKey().Key != ConsoleKey.Enter) { };
-                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Something went wrong parsing the file, please check the data!");
+                Console.WriteLine(iex.Message);
+            }
+            catch (FileNotFoundException fnfex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The file couldn't be found!");
+                Console.WriteLine(fnfex.Message);
+                Console.WriteLine(fnfex.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Something went wrong while loading the file!");
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.ResetColor();
             }
         }
     }
