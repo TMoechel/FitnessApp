@@ -350,14 +350,9 @@ namespace FitnessApp.UI
 
             var allActivities = ActivityRepository.GetAll();
 
-
-            if (!allActivities.Any())
-            {
-                Console.WriteLine("No Sport Activities yet recorded");
-            }
-            else foreach (var activity in allActivities)
+            foreach (var activity in allActivities)
                 {
-                    Console.WriteLine($"Activity Name: {GetActivityName(activity)}");
+                    Console.WriteLine($"Activity: { activity.GetType().Name}");
                     Console.WriteLine($"Distance: {activity.Distance}");
                     Console.WriteLine($"Time: {activity.TimeTaken}");
                     Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
