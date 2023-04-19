@@ -3,6 +3,7 @@ using FitnessApp.Data;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace FitnessApp.UI
@@ -64,6 +65,10 @@ namespace FitnessApp.UI
             catch (ArgumentOutOfRangeException aoorex)
             {
                 Console.WriteLine($"Error: {aoorex.Message}");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
@@ -143,6 +148,10 @@ namespace FitnessApp.UI
             {
                 Console.WriteLine($"Error: {aoorex.Message}");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         private static void AddSwimActivity(ActivityType activityType)
@@ -200,6 +209,10 @@ namespace FitnessApp.UI
             catch (ArgumentOutOfRangeException aoorex)
             {
                 Console.WriteLine($"Error: {aoorex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
@@ -260,6 +273,10 @@ namespace FitnessApp.UI
             {
                 Console.WriteLine($"Error: {aoorex.Message}");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
 
@@ -314,6 +331,10 @@ namespace FitnessApp.UI
             catch (ArgumentOutOfRangeException aoorex)
             {
                 Console.WriteLine($"Error: {aoorex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }           
 
@@ -395,6 +416,11 @@ namespace FitnessApp.UI
             catch (FormatException fex)
             {
                 Console.WriteLine($"Error: {fex.Message}");
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
 
             Console.WriteLine("Press ENTER to continue \n");
