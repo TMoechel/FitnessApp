@@ -21,13 +21,12 @@ namespace FitnessApp.Data
             List<SportActivity> activitiesByDate = new List<SportActivity>();
             foreach (SportActivity activity in _activityList)
             {
-                if (activity.Date.Date == dateOfActivity.Date)
+                if (activity.ActivityDate.Date == dateOfActivity.Date)
                 {
                     activitiesByDate.Add(activity);
                 }
             }
-            return activitiesByDate; ;
+            return activitiesByDate;
         }
-
     }
 }
