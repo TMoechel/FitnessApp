@@ -24,6 +24,6 @@
 
         public string ShowMPerSecond();
 
-        //public void LoadSpecificActivity();
+        public int HeartRate();
     }
 }
