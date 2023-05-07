@@ -28,6 +28,7 @@ namespace FitnessApp.UI
             Console.Write("Your selection: ");
 
             string? activityTypeInput = Console.ReadLine();
+            ActivityType activityType = ActivityType.Undefined;
             try
             {
                 if (activityTypeInput == null)
@@ -40,19 +41,12 @@ namespace FitnessApp.UI
                     throw new FormatException("Activity type input must be a valid integer!");
                 }
 
-                ActivityType activityType = (ActivityType)activityTypeNumber;
+                activityType = (ActivityType)activityTypeNumber;
 
                 if (!validActivities.Contains(activityType))
                 {
                     throw new ArgumentOutOfRangeException("Type of Sport Activity", "Invalid sportActivity!");
                 }
-
-                OpenActivityDialog(activityType);
-                Console.WriteLine("New SportActivity created!\n\n");
-
-                Console.WriteLine("Press ENTER to continue \n");
-                while (Console.ReadKey().Key != ConsoleKey.Enter) { };
-                Console.Clear();
             }
             catch (FormatException fx)
             {
@@ -70,6 +64,13 @@ namespace FitnessApp.UI
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
+
+            OpenActivityDialog(activityType);
+            Console.WriteLine("New SportActivity created!\n\n");
+
+            Console.WriteLine("Press ENTER to continue \n");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { };
+            Console.Clear();
         }
 
         private static void OpenActivityDialog(ActivityType activityType)
@@ -222,7 +223,7 @@ namespace FitnessApp.UI
             try
             {
                 Console.Write("Enter date of the activity in dd/mm/yyyy: ");
-                string dateInput = Console.ReadLine();
+                string? dateInput = Console.ReadLine();
                 DateTime dateOfTheActivity;
                 if (!DateTime.TryParse(dateInput, out dateOfTheActivity))
                 {
@@ -234,7 +235,7 @@ namespace FitnessApp.UI
                 }
 
                 Console.Write("Enter Distance you climbed in meters: ");
-                string distanceInput = Console.ReadLine();
+                string? distanceInput = Console.ReadLine();
                 double distance;
                 if (!double.TryParse(distanceInput, out distance))
                 {
@@ -242,7 +243,7 @@ namespace FitnessApp.UI
                 }
 
                 Console.Write("Enter time taken in hh:mm:ss: ");
-                string timeSpanInput = Console.ReadLine();
+                string? timeSpanInput = Console.ReadLine();
                 TimeSpan timeTaken;
                 if (!TimeSpan.TryParse(timeSpanInput, out timeTaken))
                 {
@@ -378,7 +379,8 @@ namespace FitnessApp.UI
                     Console.WriteLine($"Time: {activity.TimeTaken}");
                     Console.WriteLine($"Average Speed: {activity.CalculateAverageSpeed() + " " + activity.ShowKmM()}");
                     Console.WriteLine($"Feeling: {activity.Feeling}");
-                    Console.WriteLine($"Date: {activity.ActivityDate}\n");
+                    Console.WriteLine($"Date: {activity.ActivityDate}");
+                    Console.WriteLine($"HeartRate: {activity.HeartRate()}\n");
                 }
 
             Console.WriteLine("Press ENTER to continue \n");

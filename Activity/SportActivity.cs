@@ -1,5 +1,6 @@
 using FitnessApp.Data;
 using FitnessApp.UI;
+using FitnessApp.Activity;
 
 namespace FitnessApp.Activity
 {
@@ -49,7 +50,13 @@ namespace FitnessApp.Activity
             TimeTaken = timeTaken;
             Feeling = feeling;
         }
-        
+
+        public int HeartRate()
+        {
+            int simulatedHeartRate = SensorData.SimulateHeartRate(Distance, TimeTaken, Feeling);
+            return simulatedHeartRate;
+        }
+
         public double CalculateAverageInMPerSecond()
         {
             var averageInMPerSecond = Distance / (TimeTaken.Hours * 3600 + TimeTaken.Minutes * 60 + TimeTaken.Seconds);
