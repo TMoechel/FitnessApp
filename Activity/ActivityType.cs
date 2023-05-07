@@ -3,9 +3,9 @@ namespace FitnessApp.Activity
     public enum ActivityType
     {
         Undefined = 0,
-        Biking = 1,
-        Climbing = 2,
-        Running = 3,
-        Swimming = 4
+        BikeActivity = 1,
+        ClimbActivity = 2,
+        RunActivity = 3,
+        SwimActivity = 4
     }
 }

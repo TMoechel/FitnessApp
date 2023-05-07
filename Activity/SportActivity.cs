@@ -1,17 +1,14 @@
-using FitnessApp.Data;
-using FitnessApp.UI;
-using FitnessApp.Activity;
-
 namespace FitnessApp.Activity
 {
     public class SportActivity : ISportActivity
     {
+        
         private double _distance;
         
         /// <summary>
         /// Distance in m
         /// </summary>
-        public double Distance
+        public virtual double Distance
         {
             get { return _distance; }
             set { _distance = value; }
@@ -43,6 +40,12 @@ namespace FitnessApp.Activity
             set { _feeling = value; }
         }
 
+        // set a default Name to empty string
+        // descendant classes will override this value with the proper value for the activity
+        public virtual string ActivityName => "";
+
+        public virtual string DistanceUnit => "";
+
         public SportActivity(DateTime activityDate, double distance, TimeSpan timeTaken, Feeling feeling)
         {
             ActivityDate = activityDate;
@@ -50,11 +53,11 @@ namespace FitnessApp.Activity
             TimeTaken = timeTaken;
             Feeling = feeling;
         }
-
-        public int HeartRate()
+        
+        public string GetHeartRates()
         {
-            int simulatedHeartRate = SensorData.SimulateHeartRate(Distance, TimeTaken, Feeling);
-            return simulatedHeartRate;
+            int[] simulatedHeartRates = SensorData.SimulateHeartRates(Feeling);
+            return string.Join(" ", simulatedHeartRates); ;
         }
 
         public double CalculateAverageInMPerSecond()
@@ -75,7 +78,8 @@ namespace FitnessApp.Activity
             return CalculateAverageInKmPerHour();
         }
 
-        public virtual string ShowKmM()
+        // default is "Km/h" for base class
+        public virtual string GetVelocityUnit()
         {
             return ShowKmPerHour();
         }
@@ -85,9 +89,15 @@ namespace FitnessApp.Activity
             return "Km/h";
         }
 
-        public string ShowMPerSecond()
+        public string ShowMetersPerSecond()
         {
             return "m/s";
+        }
+
+        // distance in m for base class
+        public virtual double GetActivityDistance()
+        {
+            return _distance;
         }
     }
 }
