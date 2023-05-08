@@ -1,7 +1,10 @@
 namespace FitnessApp.Activity
 {
-    public class ClimbActivity : FitnessApp.Activity.SportActivity
+    public class ClimbActivity : SportActivity
     {
+        public override string ActivityName => "Climbing";
+        public override string DistanceUnit => "m";
+
         public ClimbActivity(DateTime dateOfActivity, double distance, TimeSpan timeTaken, Feeling feeling) : base(dateOfActivity, distance, timeTaken, feeling)
         {
 
@@ -11,9 +14,9 @@ namespace FitnessApp.Activity
             return CalculateAverageInMPerSecond();
         }
 
-        public override string ShowKmM()
+        public override string GetVelocityUnit()
         {
-            return ShowMPerSecond();
+            return ShowMetersPerSecond();
         }
     }
 }

@@ -2,50 +2,49 @@ namespace FitnessApp.Activity
 {
     public class SensorData
     {
-        public static int SimulateHeartRate(double distance, TimeSpan time, Feeling feeling)
+        public static int[] SimulateHeartRates(Feeling feeling)
         {
-            int baseHeartRate = 60;
-            int maxHeartRate = 180;
-            int simulatedHeartRate;
-            int intensity;
+            int heartRateLevelBad = 160;
+            int heartRateLevelOk = 150;
+            int heartRateLevelGood = 140;
+            int heartRateLevelStrong = 130;
+            int heartRateLevelVeryStrong = 120;
 
-            Random random = new Random();
+            int[] result;
 
             switch (feeling)
             {
                 case Feeling.Bad:
-                    intensity = 40;
+                    result = GenerateRandomInts(heartRateLevelBad);
                     break;
                 case Feeling.Ok:
-                    intensity = 60;
+                    result = GenerateRandomInts(heartRateLevelOk);
                     break;
                 case Feeling.Good:
-                    intensity = 80;
+                    result = GenerateRandomInts(heartRateLevelGood);
                     break;
                 case Feeling.Strong:
-                    intensity = 100;
+                    result = GenerateRandomInts(heartRateLevelStrong);
                     break;
                 case Feeling.VeryStrong:
-                    intensity = 120;
+                    result = GenerateRandomInts(heartRateLevelVeryStrong);
                     break;
                 default:
-                    intensity = 50;
+                    result = new int[10];
                     break;
             }
+            return result;
+        }
 
-            //calculate speed
-            double speed = distance / (time.Hours * 3600 + time.Minutes * 60 + time.Seconds);
-            //calculate factor depending on intensity
-            double factor = 1 + (intensity / 100.0) * speed;
-
-            //calculate simHeartRate, multiply factor by a random number
-            simulatedHeartRate = baseHeartRate + (int)Math.Round(factor * random.Next(20, 40));
-
-            //heart rate to remain between base and simulated heart rate
-            simulatedHeartRate = Math.Min(maxHeartRate, Math.Max(baseHeartRate, simulatedHeartRate));
-
-
-            return simulatedHeartRate;
+        private static int[] GenerateRandomInts(int heartRateLevel)
+        {
+            int[] result = new int[10];
+            Random random = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                result[i] = heartRateLevel + random.Next(0, 20);
+            }
+            return result;
         }
     }
 }

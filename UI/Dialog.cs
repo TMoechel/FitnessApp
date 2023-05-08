@@ -6,12 +6,10 @@ namespace FitnessApp.UI
     {
         public static void StartDialog()
         {   
-            List<SportActivity> sportActivities = new List<SportActivity>();
-            
             string userSelection;
 
-            ActivityDialog.CheckForExistingActivityFile();
-            ActivityDialog.LoadActivities(sportActivities);
+            //ActivityDialog.CheckForExistingActivityFile();
+            //ActivityDialog.LoadActivities(sportActivities);
 
             do
             {
@@ -29,8 +27,7 @@ namespace FitnessApp.UI
 
                 Console.WriteLine("1: Enter new sportActivity");
                 Console.WriteLine("2: View all activities");
-                Console.WriteLine("3: Save Activities");
-                Console.WriteLine("4: Load specific sportActivity");
+                Console.WriteLine("3: Load specific sportActivity");
                 Console.WriteLine("9: Quit application");
                 Console.Write("Your selection: ");
 
@@ -45,9 +42,6 @@ namespace FitnessApp.UI
                         ActivityDialog.DisplayAllActivities();
                         break;
                     case "3":
-                        ActivityDialog.SaveActivities();
-                        break;
-                    case "4":
                         ActivityDialog.LoadSpecificActivityByDate();
                         break;
                     case "9": break;

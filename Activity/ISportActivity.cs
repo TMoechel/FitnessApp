@@ -3,8 +3,10 @@
     internal interface ISportActivity
     {
         // Distance in m
-        public double Distance { get; }
-        
+        public double Distance { get; set; }
+
+        public string DistanceUnit { get; }
+
         // Time for Sport Event in hh:mm:ss
         public TimeSpan TimeTaken { get; }
 
@@ -18,12 +20,14 @@
 
         public double CalculateAverageSpeed();
 
-        public string ShowKmM();
+        public string GetVelocityUnit();
 
         public string ShowKmPerHour();
 
-        public string ShowMPerSecond();
+        public string ShowMetersPerSecond();
 
-        public int HeartRate();
+        public string GetHeartRates();
+
+        public double GetActivityDistance();
     }
 }
