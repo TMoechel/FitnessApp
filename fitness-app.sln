@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fitness-app", "fitness-app.csproj", "{7DC3171A-9CD2-4C71-A641-7CF5EBAA48CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoropioFitnessUnitTests", "..\LoropioFitnessUnitTests\LoropioFitnessUnitTests.csproj", "{A707B501-87CC-404E-A34A-513FC30CBD0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7DC3171A-9CD2-4C71-A641-7CF5EBAA48CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DC3171A-9CD2-4C71-A641-7CF5EBAA48CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DC3171A-9CD2-4C71-A641-7CF5EBAA48CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A707B501-87CC-404E-A34A-513FC30CBD0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A707B501-87CC-404E-A34A-513FC30CBD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A707B501-87CC-404E-A34A-513FC30CBD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A707B501-87CC-404E-A34A-513FC30CBD0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
